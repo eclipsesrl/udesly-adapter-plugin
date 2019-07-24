@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve" width="512px" height="512px" class="hovered-paths"><g><g>
+	<g>
+		<path d="M32,0H0v28h15.518c1.614,2.411,4.361,3.999,7.482,4c4.971-0.002,8.998-4.029,9-9    c0-0.361-0.027-0.718-0.068-1.068L32,22V0z M10,2h12v2H10V2z M6,2h2v2H6V2z M2,2h2v2H2V2z M23,29.883    c-3.801-0.009-6.876-3.084-6.885-6.883c0.009-3.801,3.084-6.876,6.885-6.885c3.799,0.009,6.874,3.084,6.883,6.885    C29.874,26.799,26.799,29.874,23,29.883z M29.999,17.348c-0.569-0.705-1.243-1.324-1.999-1.83V14h-4.99c-0.003,0-0.007,0-0.01,0    s-0.007,0-0.01,0H18v1.516c-2.412,1.614-4,4.361-4,7.483c0,1.054,0.19,2.062,0.523,3H2V6h27.999V17.348z M30,4h-4V2h4V4z" data-original="#010002" class="hovered-path active-path" data-old_color="#010002" fill="#1A73E8"/>
+		<rect x="18" y="10" width="10" height="2" data-original="#010002" class="hovered-path active-path" data-old_color="#010002" fill="#1A73E8"/>
+		<rect x="4" y="10" width="10" height="10" data-original="#010002" class="hovered-path active-path" data-old_color="#010002" fill="#1A73E8"/>
+		<polygon points="25,19 23,21 21,19 19,21 21,23 19,25 21,27 23,25 25,27 27,25 25,23 27,21   " data-original="#010002" class="hovered-path active-path" data-old_color="#010002" fill="#1A73E8"/>
+	</g>
+</g></g> </svg>
