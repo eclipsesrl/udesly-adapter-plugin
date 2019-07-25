@@ -190,6 +190,17 @@ class Udesly
 
     public function enqueue_wc_library() {
         wp_enqueue_script('udesly-wp-wc', UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'assets/js/bundle/udesly-wf-wc.bundle.min.js', array(), $this->version, true);
+        wp_localize_script(
+            'udesly-wp-wc',
+            'udesly_price_params',
+            array(
+                'currency_format_num_decimals' => wc_get_price_decimals(),
+                'currency_format_symbol'       => get_woocommerce_currency_symbol(),
+                'currency_format_decimal_sep'  => esc_attr( wc_get_price_decimal_separator() ),
+                'currency_format_thousand_sep' => esc_attr( wc_get_price_thousand_separator() ),
+                'currency_format'              => esc_attr( str_replace( array( '%1$s', '%2$s' ), array( '%s', '%v' ), get_woocommerce_price_format() ) ),
+            )
+        );
     }
 
     /**

@@ -11,7 +11,7 @@
  * Plugin Name: Udesly Adapter
  * Plugin URI:        https://www.udesly.com
  * Description:       This is a support plugin for Udesly (Webflow to WordPress converter) that allows you to enable additional features for your theme.
- * Version:           2.0.0.2
+ * Version:           2.0.0.3
  * Author:            Udesly
  * Author URI:        https://www.udesly.com
  * License:           GPL-2.0+
