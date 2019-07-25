@@ -68,7 +68,7 @@ class Box
 
     }
 
-    public static function render_udesly_box()
+    public static function render_udesly_box($atts)
     {
         $output = '';
 
