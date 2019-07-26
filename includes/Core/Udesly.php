@@ -97,6 +97,12 @@ class Udesly
         ) {
             require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'woocommerce.php';
         }
+
+        if (
+            class_exists('TRP_Translate_Press')
+        ) {
+            require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'translate-press.php';
+        }
     }
 
     public function add_admin_hooks()
