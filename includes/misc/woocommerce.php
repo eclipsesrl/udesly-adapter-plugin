@@ -602,3 +602,18 @@ function udesly_wc_alter_input_fields( $args, $key, $value) {
         return $args;
     }
 }
+
+
+function udesly_wc_get_product_variations() {
+    global $product;
+
+    if ($product->is_type('variable')) {
+        $attributes          = $product->get_variation_attributes();
+        if ($attributes) {
+          return  udesly_wc_get_variations($attributes);
+        }
+    }
+
+    return [];
+
+}
