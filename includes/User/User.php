@@ -50,11 +50,13 @@ class User
 
         $message = __( 'Someone sent a message from ', UDESLY_TEXT_DOMAIN )  . get_bloginfo( 'name' ) .  __( ':', UDESLY_TEXT_DOMAIN ) . "\r\n\r\n";
 
-        $form_data = $_POST['form_data'];
+        $form_data = json_decode(stripslashes($_POST['form_data']), true);
 
-        foreach ($form_data as $data){
-            $message .= sanitize_key($data['name']) . ": " . sanitize_textarea_field($data['value']) . "\r\n";
+
+        foreach ($form_data as $key => $value){
+            $message .= sanitize_key($key) . ": " . sanitize_textarea_field($value) . "\r\n";
         }
+
 
         $email_settings = Settings::get_email_settings();
 
