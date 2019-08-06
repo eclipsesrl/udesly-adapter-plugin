@@ -82,6 +82,9 @@ function udesly_get_term_featured_image($term_id = null, $dimension = 'full', $o
 
     if ("product" === $type && !$override) { // override is used only on product attributes
         $key = 'thumbnail_id';
+        if (function_exists('is_product_tag') && is_product_tag()) {
+            $key = '_featured_image';
+        }
     } else {
         $key = '_featured_image';
     }
