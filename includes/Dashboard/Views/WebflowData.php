@@ -149,7 +149,7 @@ class WebflowData
 
                         <Expansion-Panel>
                             <template v-slot:header>
-                                <h3><?php _e('Tanoxomies Queries', UDESLY_TEXT_DOMAIN); ?></h3>
+                                <h3><?php _e('Taxonomies Queries', UDESLY_TEXT_DOMAIN); ?></h3>
                             </template>
                             <ul style="list-style: disc; margin-left: 20px;">
                                 <?php foreach ($missing_data->lists as $list) : ?>
@@ -177,7 +177,7 @@ class WebflowData
 
                         <Expansion-Panel>
                             <template v-slot:header>
-                                <h3><?php _e('Post Queries', UDESLY_TEXT_DOMAIN); ?></h3>
+                                <h3><?php _e('Rules', UDESLY_TEXT_DOMAIN); ?></h3>
                             </template>
                             <ul style="list-style: disc; margin-left: 20px;">
                                 <?php foreach ($missing_data->rules as $rule) : ?>
@@ -191,7 +191,7 @@ class WebflowData
 
                         <Expansion-Panel>
                             <template v-slot:header>
-                                <h3><?php _e('Post Queries', UDESLY_TEXT_DOMAIN); ?></h3>
+                                <h3><?php _e('Boxes', UDESLY_TEXT_DOMAIN); ?></h3>
                             </template>
                             <ul style="list-style: disc; margin-left: 20px;">
                                 <?php foreach ($missing_data->boxes as $boxes) : ?>
