@@ -249,7 +249,7 @@ class WebflowData
                             </ul>
                         <?php endif; ?>
                         <?php if ($page_report->custom_fields) : ?>
-                            <p><strong><?php _e('Boxes', UDESLY_TEXT_DOMAIN); ?></strong></p>
+                            <p><strong><?php _e('Custom Fields', UDESLY_TEXT_DOMAIN); ?></strong></p>
                             <ul style="list-style: disc; margin-left: 20px;">
                                 <?php foreach ($page_report->custom_field as $cf) : ?>
                                     <li> <?php echo $cf; ?></li>
@@ -257,7 +257,7 @@ class WebflowData
                             </ul>
                         <?php endif; ?>
                         <?php if ($page_report->menus) : ?>
-                            <p><strong><?php _e('Boxes', UDESLY_TEXT_DOMAIN); ?></strong></p>
+                            <p><strong><?php _e('Menus', UDESLY_TEXT_DOMAIN); ?></strong></p>
                             <ul style="list-style: disc; margin-left: 20px;">
                                 <?php foreach ($page_report->menus as $menu) : ?>
                                     <li> <?php echo $menu; ?></li>
