@@ -572,7 +572,7 @@ function udesly_wc_alternative_template($located, $template_name, $args, $templa
 
     global $udesly_checkout_classes;
 
-    if(!isset($udesly_checkout_classes)) {
+    if(!isset($udesly_checkout_classes) && WC()->session != null) {
         $udesly_checkout_classes = WC()->session->get( 'udesly_checkout_classes' );
     }
 
