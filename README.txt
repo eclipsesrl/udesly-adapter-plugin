@@ -4,7 +4,7 @@ Donate link: https://www.udesly.com/
 Tags: webflow to wordpress, editor, page builder, layout design, udesly, webflow
 Requires at least: 5.0
 Tested up to: 5.2.2
-Stable tag: 2.0.0.13
+Stable tag: 2.0.0.14
 License: GPLv3 or later
 License URI: https://www.udesly.com/terms-conditions-of-use/#udesly-wordpress-plugin
 Requires PHP: 5.6.0
@@ -80,6 +80,10 @@ Thats' all!
 
 Absolutely! You can use the Udesly Adapter to create more than one website.
 == Changelog ==
+
+= 2.0.0.14 =
+* Fixed lost password form
+* Added missing function
 
 = 2.0.0.13 =
 * Fixed javascript for lost password form
