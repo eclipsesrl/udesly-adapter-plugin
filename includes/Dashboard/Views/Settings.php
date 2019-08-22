@@ -33,6 +33,7 @@ class Settings
                     self::search_tab();
                     self::email_tab();
                     self::tools_tab();
+                    self::js_tab();
                     ?>
                 </Tabs>
             </App>
@@ -44,7 +45,8 @@ class Settings
                 "blog" => self::get_blog_settings(),
                 "wc" => self::get_wc_settings(),
                 "search" => self::get_search_settings(),
-                "email" => self::get_email_settings()
+                "email" => self::get_email_settings(),
+                "js" => self::get_js_settings(),
             ),
             "ajaxurl" => admin_url('admin-ajax.php'),
             "nonce" => wp_create_nonce("udesly_settings"),
@@ -232,6 +234,13 @@ class Settings
             "parent" => __('Only direct childrens', UDESLY_TEXT_DOMAIN)
         );
 
+        $product_images_options = array(
+            "thumbnail" => __('Thumbnail', UDESLY_TEXT_DOMAIN),
+            "medium" => __('Medium', UDESLY_TEXT_DOMAIN),
+            "large" => __('Large', UDESLY_TEXT_DOMAIN),
+            "full" => __('Full', UDESLY_TEXT_DOMAIN)
+        );
+
         if (is_plugin_active('woocommerce/woocommerce.php')) : ?>
             <Tab name="<?php _e('WooCommerce', UDESLY_TEXT_DOMAIN); ?>" icon="fas fa-shopping-cart">
                 <Expansion-Panel open="true">
@@ -267,6 +276,14 @@ class Settings
                         <Checkbox
                                 name="wc.disable_select_woo"><?php _e("Disable Select 2", UDESLY_TEXT_DOMAIN); ?></Checkbox>
                     </Help>
+                    <Material-Select name="wc.product_images_size" required options='<?php echo json_encode($product_images_options); ?>'>
+                        <Help>
+                            <template v-slot:help>
+                                <?php _e("Size of WooCommerce product images", UDESLY_TEXT_DOMAIN); ?>
+                            </template>
+                            <?php _e('Product Images size', UDESLY_TEXT_DOMAIN); ?>
+                        </Help>
+                    </Material-Select>
                 </Expansion-Panel>
                 <Expansion-Panel>
                     <template v-slot:header>
@@ -403,6 +420,35 @@ class Settings
         <?php
     }
 
+    private static function js_tab()
+    {
+        ?>
+        <Tab name="<?php _e('JS', UDESLY_TEXT_DOMAIN); ?>" icon="fab fa-js-square">
+            <Expansion-Panel open="true">
+                <template v-slot:header>
+                    <h3><?php _e("Scripts Settings", UDESLY_TEXT_DOMAIN); ?></h3>
+                </template>
+                <Help>
+                    <template v-slot:help>
+                        <?php _e("If this option is enabled forms redirect will append a cache invalidation get attribute e.g: ?cb=123123.", UDESLY_TEXT_DOMAIN); ?>
+                    </template>
+                    <Checkbox
+                            name="js.break_cache_forms"><?php _e("Break Cache on Forms redirect", UDESLY_TEXT_DOMAIN); ?></Checkbox>
+                </Help>
+
+                <Material-Input name="js.wc_notification_duration" type="number" min="0">
+                    <Help>
+                        <template v-slot:help>
+                            <?php _e("Duration in seconds of the notification", UDESLY_TEXT_DOMAIN); ?>
+                        </template>
+                        <?php _e('WooCommerce Notifications duration', UDESLY_TEXT_DOMAIN); ?>
+                    </Help>
+                </Material-Input>
+            </Expansion-Panel>
+        </Tab>
+        <?php
+    }
+
     private static function get_settings($context = "blog", $default = array())
     {
         $options = get_option("udesly_adapter_settings_$context", array());
@@ -423,7 +469,8 @@ class Settings
             "upsells_limit" => 4,
             "related_limit" => 4,
             "disable_select_woo" => false,
-            'cart_cross_sells_limit' => 2
+            'cart_cross_sells_limit' => 2,
+            "product_images_size" => "full"
         ));
     }
 
@@ -433,6 +480,13 @@ class Settings
             "excerpt_more" => "...",
             "posts_per_page" => 6,
             "one_match_redirect" => false
+        ));
+    }
+
+    public static function get_js_settings() {
+        return self::get_settings("js", array(
+            "break_cache_forms" => false,
+            "wc_notification_duration" => 3
         ));
     }
 

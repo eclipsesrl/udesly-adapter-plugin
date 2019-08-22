@@ -187,7 +187,8 @@ class Udesly
         wp_enqueue_script('udesly-wp-wf', UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'assets/js/bundle/udesly-wf-wp.bundle.min.js', array(), $this->version, true);
         wp_localize_script('udesly-wp-wf', "udeslyAjax", array(
             "ajaxUrl" => admin_url('admin-ajax.php'),
-            "nonce" => wp_create_nonce("udesly-ajax-action")
+            "nonce" => wp_create_nonce("udesly-ajax-action"),
+            "config" => Settings::get_js_settings(),
         ));
 
         wp_enqueue_style('udesly-ajax-loading', UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'assets/css/ajax-loading.css', array(), $this->version);

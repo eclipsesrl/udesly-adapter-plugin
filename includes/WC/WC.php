@@ -26,9 +26,12 @@ class WC
         add_filter('woocommerce_form_field_args', 'udesly_wc_alter_input_fields', 10, 3);
         add_action('wp_ajax_udesly_wc_get_notices', array(self::class, "udesly_wc_get_notices"));
         add_action('wp_ajax_nopriv_udesly_wc_get_notices', array(self::class, "udesly_wc_get_notices"));
+        add_filter('woocommerce_gallery_image_size', array(self::class, "product_images_size"), 99);
+
     }
 
-    public function udesly_wc_get_notices() {
+
+    public static function udesly_wc_get_notices() {
         if (!check_ajax_referer('udesly-ajax-action', 'security', false)) {
             wp_send_json_error(array(
                 "code" => 403,
@@ -47,7 +50,7 @@ class WC
     }
 
 
-    public function udesly_get_products()
+    public static function udesly_get_products()
     {
         if (!check_ajax_referer('udesly-ajax-action', 'security', false)) {
             wp_send_json_error(array(
@@ -102,7 +105,12 @@ class WC
 
     }
 
-    public static  function remove_styles( $enqueue_styles ) {
+    public static function product_images_size() {
+        $wc = Settings::get_wc_settings();
+        return $wc['product_images_size'];
+    }
+
+    public static function remove_styles( $enqueue_styles ) {
         $wc = Settings::get_wc_settings();
         if (!$wc['general_styles'])
         {

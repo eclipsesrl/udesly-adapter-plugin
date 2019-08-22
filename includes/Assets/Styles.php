@@ -28,7 +28,7 @@ class Styles
         foreach (self::get_external_vue_style_paths($lib_name) as $index => $style) {
             wp_enqueue_style("$lib_name-$index", $style, array(), UDESLY_ADAPTER_VERSION, 'all');
         }
-        wp_enqueue_style("font-awesome", "https://use.fontawesome.com/releases/v5.8.1/css/all.css", array(), "5.8.1", 'all');
+        wp_enqueue_style("font-awesome-udesly", "https://use.fontawesome.com/releases/v5.8.1/css/all.css", array(), "5.8.1", 'all');
     }
 
 }
