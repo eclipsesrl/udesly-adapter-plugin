@@ -79,6 +79,7 @@ function udesly_get_term_featured_image($term_id = null, $dimension = 'full', $o
         $term_id = get_queried_object_id();
     }
     $type = get_post_type();
+    $term = get_term( $term_id );
 
     if ("product" === $type && !$override) { // override is used only on product attributes
         $key = 'thumbnail_id';
@@ -87,6 +88,10 @@ function udesly_get_term_featured_image($term_id = null, $dimension = 'full', $o
         }
     } else {
         $key = '_featured_image';
+    }
+
+    if ($term->taxonomy === "product_tag" || $term->taxonomy === "product_cat") {
+        $key = 'thumbnail_id';
     }
 
     $img = get_term_meta($term_id, $key, true);
@@ -98,7 +103,7 @@ function udesly_get_term_featured_image($term_id = null, $dimension = 'full', $o
         $img_url = "";
     }
 
-    if ($img_url == "" && "product" == $type) {
+    if ($img_url == "" && ("product" == $type || $term->taxonomy === "product_tag" || $term->taxonomy === "product_cat")) {
         $img_url = esc_url( wc_placeholder_img_src() );
     }
 
