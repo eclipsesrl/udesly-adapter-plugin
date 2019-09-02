@@ -81,6 +81,13 @@ class IntegrationData
             }
         }
 
+        foreach ($this->menus as $menu) {
+            if (!wp_get_nav_menu_items($menu)) {
+                $missing_data->menus[] = $menu;
+                $count++;
+            }
+        }
+
         return array(
             "data" => $missing_data,
             "count" => $count
