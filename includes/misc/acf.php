@@ -34,3 +34,30 @@ function udesly_get_acf_image_url($field_slug, $subfield = false)
     return $image_field;
 }
 
+function udesly_acf_subfield_oembed($field)
+{
+    $oembed = get_sub_field($field);
+    if (filter_var($oembed, FILTER_VALIDATE_URL)) // its url and not oembed
+    {
+        $wp_embed = wp_oembed_get($oembed);
+        if ($wp_embed) {
+            echo $wp_embed;
+        }
+    } else {
+        echo $oembed;
+    }
+}
+
+function udesly_acf_field_oembed($field)
+{
+    $oembed = get_field($field);
+    if (filter_var($oembed, FILTER_VALIDATE_URL)) // its url and not oembed
+    {
+        $wp_embed = wp_oembed_get($oembed);
+        if ($wp_embed) {
+            echo $wp_embed;
+        }
+    } else {
+        echo $oembed;
+    }
+}
