@@ -38,13 +38,10 @@ class FrontendEditorType
                 $jsPath = UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'externals/udesly-frontend-editor/udesly-frontend-editor.js';
                 $cssPath = UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'externals/udesly-frontend-editor/udesly-frontend-editor.css';
                 wp_enqueue_media();
-                if (file_exists($jsPath)) {
-                    wp_enqueue_script('udesly-frontend-editor', $jsPath, array(), UDESLY_ADAPTER_VERSION, true );
-                    wp_enqueue_style('udesly-frontend-editor', $cssPath);
-                } else {
-                    wp_enqueue_script('udesly-frontend-editor', UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'externals/udesly-frontend-editor/dist/udesly-frontend-editor.js', array(), UDESLY_ADAPTER_VERSION, true );
-                    wp_enqueue_style('udesly-frontend-editor', UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL . 'externals/udesly-frontend-editor/dist/udesly-frontend-editor.css');
-                }
+
+                wp_enqueue_script('udesly-frontend-editor', $jsPath, array(), UDESLY_ADAPTER_VERSION, true );
+                wp_enqueue_style('udesly-frontend-editor', $cssPath);
+
 
                 wp_enqueue_style("font-awesome-udesly", "https://use.fontawesome.com/releases/v5.8.1/css/all.css", array(), "5.8.1", 'all');
                 wp_localize_script('udesly-frontend-editor', 'udesly_fe', array('ajax_url' => admin_url('admin-ajax.php'), 'ajax_nonce' => wp_create_nonce('udesly-fe-security')));
