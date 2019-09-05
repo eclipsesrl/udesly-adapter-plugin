@@ -104,7 +104,22 @@ function udesly_get_term_featured_image($term_id = null, $dimension = 'full', $o
     }
 
     if ($img_url == "" && ("product" == $type || $term->taxonomy === "product_tag" || $term->taxonomy === "product_cat")) {
-        $img_url = esc_url( wc_placeholder_img_src() );
+        if ($key == "_featured_image") {
+            $key = "thumbnail_id";
+        } else {
+            $key = "_featured_image";
+        }
+        $img = get_term_meta($term_id, $key, true);
+        if ($img) {
+            $dimension = apply_filters('udesly_get_term_featured_image_dimension', $dimension);
+            $img_url = wp_get_attachment_image_src($img, $dimension)[0];
+        }
+        else {
+            $img_url = "";
+        }
+        if ($img_url == "") {
+            $img_url = esc_url( wc_placeholder_img_src() );
+        }
     }
 
     return apply_filters('udesly_get_term_featured_image', $img_url, $term_id);

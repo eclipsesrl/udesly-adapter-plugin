@@ -21,13 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $udesly_checkout_classes;
 
-
 ?>
 <div class="woocommerce-checkout-review-order-table <?php echo $udesly_checkout_classes['c']; ?>">
 
     <div class="<?php echo $udesly_checkout_classes['l_i']; ?>">
-        <div class="product-name <?php echo $udesly_checkout_classes['l']; ?>"><?php _e( 'Product', 'woocommerce' ); ?></div>
-        <div class="product-total <?php echo $udesly_checkout_classes['l']; ?>"><?php _e( 'Total', 'woocommerce' ); ?></div>
+        <div class="product-name <?php echo $udesly_checkout_classes['l']; ?>"><strong><?php _e( 'Product', 'woocommerce' ); ?></strong></div>
+        <div class="product-total <?php echo $udesly_checkout_classes['l']; ?>"><strong><?php _e( 'Total', 'woocommerce' ); ?></strong></div>
     </div>
 
     <?php
@@ -53,13 +52,13 @@ global $udesly_checkout_classes;
     ?>
 
     <div class="cart-subtotal <?php echo $udesly_checkout_classes['l_i']; ?>">
-        <div class="<?php echo $udesly_checkout_classes['l']; ?>"><?php _e( 'Subtotal', 'woocommerce' ); ?></div>
+        <div class="<?php echo $udesly_checkout_classes['l']; ?>"><strong><?php _e( 'Subtotal', 'woocommerce' ); ?></strong></div>
         <div><?php wc_cart_totals_subtotal_html(); ?></div>
     </div>
 
     <?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
         <div class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?> <?php echo $udesly_checkout_classes['c_w']; ?>">
-            <div class="<?php echo $udesly_checkout_classes['l']; ?>"><?php wc_cart_totals_coupon_label( $coupon ); ?></div>
+            <div class="<?php echo $udesly_checkout_classes['l']; ?>"><strong><?php wc_cart_totals_coupon_label( $coupon ); ?></strong></div>
             <div><?php wc_cart_totals_coupon_html( $coupon ); ?></div>
         </div>
     <?php endforeach; ?>
@@ -76,7 +75,7 @@ global $udesly_checkout_classes;
 
     <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
         <div class="fee <?php echo $udesly_checkout_classes['c_w']; ?>">
-            <div class="<?php echo $udesly_checkout_classes['l']; ?>"><?php echo esc_html( $fee->name ); ?></div>
+            <div class="<?php echo $udesly_checkout_classes['l']; ?>"><strong><?php echo esc_html( $fee->name ); ?></strong></div>
             <div><?php wc_cart_totals_fee_html( $fee ); ?></div>
         </div>
     <?php endforeach; ?>
@@ -85,13 +84,13 @@ global $udesly_checkout_classes;
         <?php if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) : ?>
             <?php foreach ( WC()->cart->get_tax_totals() as $code => $tax ) : ?>
                 <div class="tax-rate tax-rate-<?php echo sanitize_title( $code ); ?> <?php echo $udesly_checkout_classes['l_i']; ?>">
-                    <div class="<?php echo $udesly_checkout_classes['l']; ?>"><?php echo esc_html( $tax->label ); ?></div>
+                    <div class="<?php echo $udesly_checkout_classes['l']; ?>"><strong><?php echo esc_html( $tax->label ); ?></strong></div>
                     <div><?php echo wp_kses_post( $tax->formatted_amount ); ?></div>
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
             <div class="tax-total <?php echo $udesly_checkout_classes['l_i']; ?>">
-                <div class="<?php echo $udesly_checkout_classes['l']; ?>"><?php echo esc_html( WC()->countries->tax_or_vat() ); ?></div>
+                <div class="<?php echo $udesly_checkout_classes['l']; ?>"><strong><?php echo esc_html( WC()->countries->tax_or_vat() ); ?></strong></div>
                 <div><?php wc_cart_totals_taxes_total_html(); ?></div>
             </div>
         <?php endif; ?>
@@ -100,7 +99,7 @@ global $udesly_checkout_classes;
     <?php do_action( 'woocommerce_review_order_before_order_total' ); ?>
 
     <div class="order-total <?php echo $udesly_checkout_classes['l_i']; ?>">
-        <div class="<?php echo $udesly_checkout_classes['l']; ?>"><?php _e( 'Total', 'woocommerce' ); ?></div>
+        <div class="<?php echo $udesly_checkout_classes['l']; ?>"><strong><?php _e( 'Total', 'woocommerce' ); ?></strong></div>
         <div><?php wc_cart_totals_order_total_html(); ?></div>
     </div>
 
