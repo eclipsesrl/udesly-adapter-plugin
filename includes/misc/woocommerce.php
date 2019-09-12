@@ -415,6 +415,21 @@ function udesly_wc_get_single_product_images_lightbox_json() {
     ));
 }
 
+function udesly_wc_get_featured_image_lightbox_json() {
+    $result = [];
+
+    $image = get_the_post_thumbnail_url('full');
+    $result[] = array(
+        "caption" => get_the_post_thumbnail_caption(),
+        "url" => $image ? $image : wc_placeholder_img_src('full'),
+        "type" => "image",
+    );
+
+    return json_encode(array(
+        "items" => $result
+    ));
+}
+
 function udesly_wc_get_single_product_image($attachment_id, $main_image = false) {
 
     $flexslider        = (bool) apply_filters( 'woocommerce_single_product_flexslider_enabled', get_theme_support( 'wc-product-gallery-slider' ) );

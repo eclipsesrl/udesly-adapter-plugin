@@ -254,6 +254,22 @@ function udesly_get_reset_password_error() {
     return $errors;
 }
 
+function udesly_get_featured_image_lightbox_json() {
+
+    $result = [];
+
+    $image = get_the_post_thumbnail_url('full');
+    $result[] = array(
+        "caption" => get_the_post_thumbnail_caption(),
+        "url" => $image ? $image : '',
+        "type" => "image",
+    );
+
+    return json_encode(array(
+        "items" => $result
+    ));
+}
+
 function udesly_get_archive_featured_image()
 {
 
