@@ -103,7 +103,10 @@ function _udesly_set_fe_items($page_name) {
         }
         if (udesly_string_starts_with($key, 'video_')) {
             $videos = '';
-            $value = json_decode($value);
+
+            if (is_string($value)) {
+                $value = json_decode($value);
+            }
 
             foreach ($value->videos as $video) {
                 if (!udesly_string_is_absolute($video)) {
