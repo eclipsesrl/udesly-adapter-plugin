@@ -31,6 +31,11 @@ class TermsQueryBuilder
             unset($data['name__like']);
         }
 
+        if (isset($data['top_level']) && $data['top_level'] == true) {
+            unset($data['top_level']);
+            $data['parent'] = 0;
+        }
+
         return $data;
     }
 

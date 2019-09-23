@@ -155,6 +155,15 @@ class Taxonomies
                                     <?php _e("Name Like", UDESLY_TEXT_DOMAIN); ?>
                                 </Help>
                             </Material-Input>
+                            <Checkbox name="top_level">
+                                <Help>
+                                    <template v-slot:help>
+                                        <?php _e("Select only terms that are Top Level", UDESLY_TEXT_DOMAIN); ?>
+                                    </template>
+                                    <?php _e("Top Level only", UDESLY_TEXT_DOMAIN); ?>
+                                </Help>
+
+                            </Checkbox>
                         </template>
                     </List-Option>
                     <List-Option name="<?php _e("Sort", UDESLY_TEXT_DOMAIN); ?>">
@@ -194,6 +203,7 @@ class Taxonomies
                             </Material-Input>
                         </template>
                     </List-Option>
+
                 </div>
                 <div class="actions">
                     <Material-Button action="previewTaxonomies" idle="<?php _e('Preview', UDESLY_TEXT_DOMAIN); ?>"
@@ -275,6 +285,10 @@ class Taxonomies
             unset($data['taxonomy']);
         }
 
+        if (isset($data['top_level']) && $data['top_level'] == true) {
+            unset($data['top_level']);
+            $data['parent'] = 0;
+        }
 
         return $data;
     }
