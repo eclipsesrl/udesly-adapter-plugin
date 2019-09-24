@@ -85,6 +85,14 @@ class Settings
                         <?php _e('Archive Title', UDESLY_TEXT_DOMAIN); ?>
                     </Help>
                 </Material-Input>
+                <Material-Input name="blog.general_archive_title" required minlength="3" type="text">
+                    <Help>
+                        <template v-slot:help>
+                            <?php _e("Customise the title you will see on general archive title.", UDESLY_TEXT_DOMAIN); ?>
+                        </template>
+                        <?php _e('General Archive Title', UDESLY_TEXT_DOMAIN); ?>
+                    </Help>
+                </Material-Input>
                 <template v-slot:header>
                     <h3><?php _e("Archive Description", UDESLY_TEXT_DOMAIN); ?></h3>
                     <p> <?php _e("Customize your blog archive description", UDESLY_TEXT_DOMAIN); ?></p>
@@ -517,7 +525,8 @@ class Settings
             "tag_title" => "Tag: %s",
             "excerpt_length" => 20,
             "excerpt_more" => "...",
-            "show_categories" => "all"
+            "show_categories" => "all",
+            "general_archive_title" => "Archives: %s"
         ));
     }
 
