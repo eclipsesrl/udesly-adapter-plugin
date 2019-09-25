@@ -33,6 +33,7 @@ class Settings
                     self::search_tab();
                     self::email_tab();
                     self::tools_tab();
+                    self::comments_tab();
                     self::js_tab();
                     ?>
                 </Tabs>
@@ -46,6 +47,7 @@ class Settings
                 "wc" => self::get_wc_settings(),
                 "search" => self::get_search_settings(),
                 "email" => self::get_email_settings(),
+                "comments" => self::get_comments_settings(),
                 "js" => self::get_js_settings(),
             ),
             "ajaxurl" => admin_url('admin-ajax.php'),
@@ -59,6 +61,8 @@ class Settings
         )));
 
     }
+
+
 
     private static function blog_tab()
     {
@@ -390,6 +394,50 @@ class Settings
 
     }
 
+    private static function comments_tab()
+    {
+        ?>
+        <Tab name="<?php _e('Comments', UDESLY_TEXT_DOMAIN); ?>" icon="fas fa-comments">
+            <Expansion-Panel open="true">
+                <template v-slot:header>
+                    <h3><?php _e("Comments Texts", UDESLY_TEXT_DOMAIN); ?></h3>
+                </template>
+                <Material-Input name="comments.reply_text" required minlength="3" type="text">
+
+                    <?php _e('Reply:', UDESLY_TEXT_DOMAIN); ?>
+
+                </Material-Input>
+                <Material-Input name="comments.reply_to_text" required minlength="3" type="text">
+
+                        <?php _e('Reply to:', UDESLY_TEXT_DOMAIN); ?>
+
+                </Material-Input>
+                <Material-Input name="comments.login_text" required minlength="3" type="text">
+
+                    <?php _e('Login:', UDESLY_TEXT_DOMAIN); ?>
+
+                </Material-Input>
+                <Material-Input name="comments.label_submit" required minlength="3" type="text">
+
+                    <?php _e('Submit:', UDESLY_TEXT_DOMAIN); ?>
+
+                </Material-Input>
+                <Material-Input name="comments.title_reply" required minlength="3" type="text">
+
+                    <?php _e('Reply Title:', UDESLY_TEXT_DOMAIN); ?>
+
+                </Material-Input>
+                <Material-Input name="comments.title_reply_to" required minlength="3" type="text">
+
+                    <?php _e('Reply To Title:', UDESLY_TEXT_DOMAIN); ?>
+
+                </Material-Input>
+            </Expansion-Panel>
+        </Tab>
+        <?php
+
+    }
+
     private static function email_tab()
     {
         ?>
@@ -488,6 +536,17 @@ class Settings
             "excerpt_more" => "...",
             "posts_per_page" => 6,
             "one_match_redirect" => false
+        ));
+    }
+
+    public static function get_comments_settings() {
+        return self::get_settings("comments", array(
+            "reply_text" => "Reply",
+            "reply_to_text" => 'Reply to %s',
+            "login_text" => 'Log in to Reply',
+            "label_submit" => 'Post Comment',
+            'title_reply' => "Leave a Reply",
+            "title_reply_to" => "Write a reply to %s"
         ));
     }
 

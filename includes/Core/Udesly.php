@@ -80,6 +80,7 @@ class Udesly
         require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'terms-query.php';
         require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'rules.php';
         require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'social.php';
+        require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'comments.php';
 
         //Pagination function integration
         require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'pagination.php';

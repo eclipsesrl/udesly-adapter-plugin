@@ -30,3 +30,11 @@
 .woocommerce-MyAccount-content p a, .woocommerce p a {
     display: inline;
 }
+
+p.logged-in-as a {
+    display: inline-block;
+}
+
+ul ul.children {
+    list-style-type: inherit;
+}
