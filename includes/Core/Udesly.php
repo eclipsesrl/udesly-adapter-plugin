@@ -104,6 +104,18 @@ class Udesly
         ) {
             require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'translate-press.php';
         }
+
+        add_filter('template_include', function ($template) {
+
+            if (post_password_required()) {
+                $path = trailingslashit( get_template_directory() ) . '401.php';
+                if (file_exists($path)) {
+                    return $path;
+                }
+            }
+
+            return $template;
+        });
     }
 
     public function add_admin_hooks()
