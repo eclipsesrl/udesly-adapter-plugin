@@ -134,6 +134,8 @@ class Settings
                         <?php _e('Author Title', UDESLY_TEXT_DOMAIN); ?>
                     </Help>
                 </Material-Input>
+                <Checkbox
+                        name="blog.hide_password_protected"><?php _e("Hide Password Protected posts from Archive", UDESLY_TEXT_DOMAIN); ?></Checkbox>
             </Expansion-Panel>
             <Expansion-Panel>
                 <template v-slot:header>
@@ -585,7 +587,8 @@ class Settings
             "excerpt_length" => 20,
             "excerpt_more" => "...",
             "show_categories" => "all",
-            "general_archive_title" => "Archives: %s"
+            "general_archive_title" => "Archives: %s",
+            "hide_password_protected" => false,
         ));
     }
 

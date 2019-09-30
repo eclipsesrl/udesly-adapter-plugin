@@ -31,6 +31,10 @@ class Blog
         add_action('wp_ajax_nopriv_udesly_get_posts', array($this, "udesly_get_posts"));
         add_filter( 'get_the_archive_description', array($this, "filter_archive_description") );
 
+        if ($this->settings['hide_password_protected'] == true) {
+            add_filter( 'posts_where', array($this, "password_post_filter") );
+        }
+
     }
 
     public function filter_archive_description($description) {
@@ -91,6 +95,14 @@ class Blog
 
 
     }
+
+    public function password_post_filter( $where = '' ) {
+        if (!is_single() && !is_admin()) {
+            $where .= " AND post_password = ''";
+        }
+        return $where;
+    }
+
 
     public function excerpt($length)
     {
