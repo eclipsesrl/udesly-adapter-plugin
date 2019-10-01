@@ -40,6 +40,16 @@ class PostsQueryBuilder
             unset($data['meta_value']);
         }
 
+        if (isset($data['has_password'])) {
+            if ($data['has_password'] == 'true') {
+                $data['has_password'] = true;
+            } else if ($data['has_password'] == 'false') {
+                $data['has_password'] = false;
+            } else {
+                unset($data['has_password']);
+            }
+        }
+
         if (isset($data['taxonomy']) && udesly_string_starts_with( $data['taxonomy'], "udy_current_") ) {
 
             global $post;
@@ -104,7 +114,7 @@ class PostsQueryBuilder
         $this->name = $name;
         $this->query_arguments = array_merge(array(
             'no_found_rows' => false,
-            'ignore_sticky_posts' => 1,
+            'ignore_sticky_posts' => 1
         ), $query_arguments);
     }
 

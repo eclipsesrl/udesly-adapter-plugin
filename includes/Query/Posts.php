@@ -308,7 +308,15 @@ class Posts
                                     <?php _e("Meta Value", UDESLY_TEXT_DOMAIN); ?>
                                 </Help>
                             </Material-Input>
-
+                            <Material-Select name="has_password"
+                                             options='<?php echo json_encode(self::get_has_password_options()); ?>'>
+                                <Help>
+                                    <template v-slot:help>
+                                        <?php _e("Filter posts by Password status", UDESLY_TEXT_DOMAIN); ?>
+                                    </template>
+                                    <?php _e("Has Password", UDESLY_TEXT_DOMAIN); ?>
+                                </Help>
+                            </Material-Select>
                         </template>
 
                     </List-Option>
@@ -384,7 +392,8 @@ class Posts
             "terms" => [],
             "author" => [],
             "meta_key" => "",
-            "meta_value" => ""
+            "meta_value" => "",
+            "has_password" => "both"
         );
 
         $args = wp_parse_args($args, $defaults);
@@ -418,6 +427,16 @@ class Posts
         }
         if (empty($data['meta_value'])) {
             unset($data['meta_value']);
+        }
+
+        if (isset($data['has_password'])) {
+            if ($data['has_password'] == 'true') {
+                $data['has_password'] = true;
+            } else if ($data['has_password'] == 'false') {
+                $data['has_password'] = false;
+            } else {
+                unset($data['has_password']);
+            }
         }
 
         if (isset($data['taxonomy']) && isset($data['terms'])) {
@@ -501,6 +520,14 @@ class Posts
         }
 
         return $result;
+    }
+
+    private static function get_has_password_options() {
+        return array(
+          "both" => "With and Without Password",
+          "false" => "Without Password",
+          "true" => "With Password"
+        );
     }
 
     public static function public_hooks()
