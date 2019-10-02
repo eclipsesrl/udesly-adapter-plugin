@@ -35,6 +35,13 @@ class Blog
             add_filter( 'posts_where', array($this, "password_post_filter") );
         }
 
+        add_filter( 'private_title_format', function( $format ) {
+            return '%s';
+        } );
+        add_filter( 'protected_title_format', function( $format ) {
+            return '%s';
+        }  );
+
     }
 
     public function filter_archive_description($description) {

@@ -231,6 +231,10 @@ class Posts
             [v-cloak] {
                 display: none;
             }
+            #udesly-query-wrapper {
+                height: 100%;
+                padding-bottom: 90px;
+            }
         </style>
         <script>
             jQuery(document).ready(function()
@@ -308,6 +312,15 @@ class Posts
                                     <?php _e("Meta Value", UDESLY_TEXT_DOMAIN); ?>
                                 </Help>
                             </Material-Input>
+                            <Material-Select name="post_status"
+                                             options='<?php echo json_encode(self::get_post_statuses()); ?>'>
+                                <Help>
+                                    <template v-slot:help>
+                                        <?php _e("Filter posts by post status", UDESLY_TEXT_DOMAIN); ?>
+                                    </template>
+                                    <?php _e("Post Status", UDESLY_TEXT_DOMAIN); ?>
+                                </Help>
+                            </Material-Select>
                             <Material-Select name="has_password"
                                              options='<?php echo json_encode(self::get_has_password_options()); ?>'>
                                 <Help>
@@ -393,7 +406,8 @@ class Posts
             "author" => [],
             "meta_key" => "",
             "meta_value" => "",
-            "has_password" => "both"
+            "has_password" => "both",
+            "post_status" => "publish"
         );
 
         $args = wp_parse_args($args, $defaults);
@@ -495,6 +509,20 @@ class Posts
             "ID" => __("ID", UDESLY_TEXT_DOMAIN),
             "author" => __("Author", UDESLY_TEXT_DOMAIN),
             "rand" => __("Random", UDESLY_TEXT_DOMAIN),
+        );
+    }
+
+    private static function get_post_statuses()
+    {
+        return array(
+            "publish" => __("Published", UDESLY_TEXT_DOMAIN),
+            "pending" => __("Pending review", UDESLY_TEXT_DOMAIN),
+            "draft" => __("Draft", UDESLY_TEXT_DOMAIN),
+            "auto-draft" => __("Auto Draft", UDESLY_TEXT_DOMAIN),
+            "future" => __("Future", UDESLY_TEXT_DOMAIN),
+            "private" => __("Private", UDESLY_TEXT_DOMAIN),
+            "thrash" => __("Trash", UDESLY_TEXT_DOMAIN),
+            "any" => __("Any status (not Trash and Auto Draft)", UDESLY_TEXT_DOMAIN),
         );
     }
 
