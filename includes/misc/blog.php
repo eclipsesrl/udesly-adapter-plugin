@@ -184,3 +184,71 @@ function udesly_get_tag_link_by_slug( $slug ) {
     }
 
 }
+
+function udesly_get_authors() {
+    global $wpdb;
+
+    $defaults = array(
+        'orderby'       => 'name',
+        'order'         => 'ASC',
+        'number'        => '',
+        'exclude_admin' => false,
+        'hide_empty'    => true,
+        'exclude'       => '',
+        'include'       => '',
+    );
+
+    $args = apply_filters('udesly_get_authors_args', $defaults);
+
+    $query_args           = wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number', 'exclude', 'include' ) );
+    $query_args['fields'] = 'ids';
+    $authors              = get_users( $query_args );
+
+    $author_count = array();
+    foreach ( (array) $wpdb->get_results( "SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE " . get_private_posts_cap_sql( 'post' ) . ' GROUP BY post_author' ) as $row ) {
+        $author_count[ $row->post_author ] = $row->count;
+    }
+
+    $result = [];
+
+    foreach ( $authors as $author_id ) {
+        $posts = isset($author_count[$author_id]) ? $author_count[$author_id] : 0;
+
+        if (!$posts && $args['hide_empty']) {
+            continue;
+        }
+
+        $author = get_userdata($author_id);
+
+        if (!$author) {
+            continue;
+        }
+
+        if ($args['exclude_admin'] && 'admin' === $author->display_name) {
+            continue;
+        }
+
+        $result[] = (object) array(
+            "ID" => $author->ID,
+            "display_name" => $author->display_name,
+            "first_name" => $author->first_name,
+            "last_name" => $author->last_name,
+            "email" => $author->user_email,
+            "description" => $author->description,
+            "website" => $author->user_url,
+            "facebook" => get_user_meta($author->ID, "facebook", true),
+            "linkedin" => get_user_meta($author->ID, "linkedin", true),
+            "youtube" => get_user_meta($author->ID, "youtube", true),
+            "twitter" => get_user_meta($author->ID, "twitter", true),
+            "dribble" => get_user_meta($author->ID, "dribble", true),
+            "instagram" => get_user_meta($author->ID, "instagram", true),
+            "reddit" => get_user_meta($author->ID, "reddit", true),
+            "phone" => get_user_meta($author->ID, "phonenumber", true),
+            "url" => get_author_posts_url($author->ID),
+            "avatar" => get_avatar_url($author->user_email),
+        );
+    }
+
+    return $result;
+
+}
