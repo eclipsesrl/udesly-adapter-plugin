@@ -144,7 +144,7 @@ class FrontendEditorType
         if ($fe_page) {
             // Merge and update Data
             $id = $fe_page->ID;
-            $page_saved_data = unserialize($fe_page->post_content);
+            $page_saved_data = udesly_mb_unserialize($fe_page->post_content);
 
 
             $merged_data = $invert ? self::merge_objects($page_saved_data, $data) : self::merge_objects($data, $page_saved_data);

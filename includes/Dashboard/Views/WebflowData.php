@@ -225,6 +225,7 @@ class WebflowData
                             </ul>
                         <?php endif; ?>
                         <?php if ($page_report->lists) : ?>
+
                             <p><strong><?php _e('Taxonomies Queries', UDESLY_TEXT_DOMAIN); ?></strong></p>
                             <ul style="list-style: disc; margin-left: 20px;">
                                 <?php foreach ($page_report->lists as $list) : ?>
@@ -251,7 +252,7 @@ class WebflowData
                         <?php if ($page_report->custom_fields) : ?>
                             <p><strong><?php _e('Custom Fields', UDESLY_TEXT_DOMAIN); ?></strong></p>
                             <ul style="list-style: disc; margin-left: 20px;">
-                                <?php foreach ($page_report->custom_field as $cf) : ?>
+                                <?php foreach ($page_report->custom_fields as $cf) : ?>
                                     <li> <?php echo $cf; ?></li>
                                 <?php endforeach; ?>
                             </ul>
