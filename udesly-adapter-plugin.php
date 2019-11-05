@@ -11,7 +11,7 @@
  * Plugin Name: Udesly Adapter
  * Plugin URI:        https://www.udesly.com
  * Description:       This is a support plugin for Udesly (Webflow to WordPress converter) that allows you to enable additional features for your theme.
- * Version:           2.0.0.37
+ * Version:           2.0.0.38
  * Author:            Udesly
  * Author URI:        https://www.udesly.com
  * License:           GPL-2.0+
@@ -29,7 +29,7 @@ if (!defined('WPINC') || !defined('ABSPATH')) {
 // Constants
 defined('UDESLY_ADAPTER_PLUGIN_DIRECTORY_PATH') ?: define('UDESLY_ADAPTER_PLUGIN_DIRECTORY_PATH', plugin_dir_path(__FILE__));
 defined('UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL') ?: define('UDESLY_ADAPTER_PLUGIN_DIRECTORY_URL', plugin_dir_url(__FILE__));
-defined('UDESLY_ADAPTER_VERSION') ?: define('UDESLY_ADAPTER_VERSION', "2.0.0.37");
+defined('UDESLY_ADAPTER_VERSION') ?: define('UDESLY_ADAPTER_VERSION', "2.0.0.38");
 defined('UDESLY_TEXT_DOMAIN') ?: define('UDESLY_TEXT_DOMAIN', "udesly-adapter-plugin");
 
 defined('UDESLY_ADAPTER_PLUGIN_MISC_PATH') ?: define('UDESLY_ADAPTER_PLUGIN_MISC_PATH', plugin_dir_path(__FILE__) . 'includes/misc/');

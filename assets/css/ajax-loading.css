@@ -15,7 +15,7 @@
     transition: opacity 1s linear;
 }
 
-.udy-wc-notices-wrapper.is-ajax {
+.udy-wc-notices-wrapper.is-ajax, .udy-wc-notices-wrapper.is-ajaxnotices-parent {
     opacity: 1;
     transition: opacity 1s linear;
 }
