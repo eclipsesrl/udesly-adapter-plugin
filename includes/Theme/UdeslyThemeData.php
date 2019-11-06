@@ -64,10 +64,10 @@ class UdeslyThemeData
             case "advanced-custom-fields":
                 return function_exists("get_field");
             case "woocommerce":
-                return in_array(
-                    'woocommerce/woocommerce.php',
-                    apply_filters( 'active_plugins', get_option( 'active_plugins' ) )
-                );
+                if (is_multisite()) {
+                    return true;
+                }
+                return is_plugin_active( 'woocommerce/woocommerce.php');
             default:
                 return false;
         }

@@ -58,6 +58,20 @@ class Udesly
 
     }
 
+    public static function is_wc_active() {
+        if (is_multisite()) {
+           if (class_exists('WooCommerce')) {
+               return true;
+           }
+        } else if( in_array(
+            'woocommerce/woocommerce.php',
+            apply_filters('active_plugins', get_option('active_plugins'))
+        )) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Loads text locale
      */
@@ -91,10 +105,7 @@ class Udesly
         }
 
         if (
-        in_array(
-            'woocommerce/woocommerce.php',
-            apply_filters('active_plugins', get_option('active_plugins'))
-        )
+          $this->is_wc_active()
         ) {
             require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'woocommerce.php';
         }
@@ -147,9 +158,7 @@ class Udesly
         CustomPostTypes::public_hooks();
         $blog = new Blog();
         $blog->public_hooks();
-        if ( in_array(
-            'woocommerce/woocommerce.php',
-            apply_filters('active_plugins', get_option('active_plugins'))) ) {
+        if ( $this->is_wc_active() ) {
             WC::public_hooks();
             add_action('wp_enqueue_scripts', array($this, 'enqueue_wc_library'));
         }
