@@ -35,7 +35,7 @@ function udesly_get_social_share_url($social) {
                 'mini'    => true,
                 'url'     => $permalink,
                 'title'   => substr( $post->post_title, 0, 200 ),
-                'summary' => substr( $post->post_excerpt, 0, 256 ),
+                'summary' => esc_html(substr( $post->post_excerpt, 0, 256 )),
             ), 'https://www.linkedin.com/shareArticle' );
             break;
         case 'reddit':
@@ -70,7 +70,7 @@ function udesly_get_social_share_url($social) {
             break;
         case 'email':
             return add_query_arg( array(
-                'body'  => substr( $post->post_excerpt, 0, 256 ) . '\n'. __('Read more on:') . ' ' . $permalink,
+                'body'  =>  esc_html(substr( $post->post_excerpt, 0, 256 ) . '\n'. __('Read more on:') . ' ' . $permalink),
                 'subject' => $post->post_title
             ), 'mailto:' );
             break;
