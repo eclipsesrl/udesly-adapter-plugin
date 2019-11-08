@@ -20,6 +20,11 @@
     transition: opacity 1s linear;
 }
 
+/* bug fix for checkout notices */
+.woocommerce-NoticeGroup-checkout .udy-wc-notices-wrapper {
+    opacity: 1!important;
+}
+
 [udy-el="wc-cart"].empty form > *{
     display: none;
 }
