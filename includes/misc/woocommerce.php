@@ -316,9 +316,9 @@ function udesly_wc_get_variations($attributes)
                             "name" => esc_attr($name),
                             "value" => esc_attr($term->slug),
                             "checked" => sanitize_title($selected) === $term->slug ? "checked" : "",
-                            "for" => esc_attr($term->slug),
+                            "for" => strtolower($term->slug),
                             "label" => esc_html(apply_filters('woocommerce_variation_option_name', $term->name)),
-                            "id" => esc_attr($term->slug),
+                            "id" => strtolower($term->slug),
                             "image" => $image,
                         );
                         // echo '<input type="radio" name="'.esc_attr($name).'" value="'.esc_attr($term->slug).'" '.checked(sanitize_title($selected), $term->slug, false).'><label for="'.esc_attr($term->slug).'">'.esc_html(apply_filters('woocommerce_variation_option_name', $term->name)).'</label>';
@@ -330,13 +330,12 @@ function udesly_wc_get_variations($attributes)
                         "name" => esc_attr($name),
                         "value" => esc_attr($option),
                         "checked" => sanitize_title($selected) === $selected ? checked($selected, sanitize_title($option), false) : checked($selected, $option, false),
-                        "for" => sanitize_title($option),
+                        "for" => strtolower($option),
                         "label" => esc_html(apply_filters('woocommerce_variation_option_name', $option)),
-                        "id" => sanitize_title($option),
+                        "id" => strtolower($option),
                         "image" => ""
                     );
 
-                    //echo '<input type="radio" name="'.esc_attr($name).'" value="'.esc_attr($option).'" id="'.sanitize_title($option).'" '.$checked.'><label for="'.sanitize_title($option).'">'.esc_html(apply_filters('woocommerce_variation_option_name', $option)).'</label>';
                 }
             }
         }

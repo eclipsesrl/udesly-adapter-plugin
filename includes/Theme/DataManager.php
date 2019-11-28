@@ -2,6 +2,7 @@
 
 namespace Udesly\Theme;
 
+use mysql_xdevapi\Exception;
 use Udesly\FrontendEditor\FrontendEditorType;
 if (!defined('WPINC') || !defined('ABSPATH')) {
     die;
@@ -20,6 +21,11 @@ class DataManager
         return self::get_theme_data_folder_path() . 'udesly-data.json';
     }
 
+    public static function get_options_udesly_data_path()
+    {
+        return self::get_theme_data_folder_path() . 'udesly-customizer-options.json';
+    }
+
     public static function is_udesly_theme_active()
     {
         return file_exists(self::get_theme_udesly_data_path());
@@ -36,6 +42,122 @@ class DataManager
         add_action("deactivated_plugin", array(self::class, "udesly_delete_check_data"));
         add_action("save_post", array(self::class, "udesly_delete_check_data"));
         add_action("delete_post", array(self::class, "udesly_delete_check_data"));
+    }
+
+    public static function public_hooks() {
+        add_action( 'customize_register', array(self::class, 'register_customizer') );
+    }
+
+    public static function register_customizer( $wp_customize ) {
+        //All our sections, settings, and controls will be added here
+
+        $path = self::get_options_udesly_data_path();
+        if (!file_exists($path)) {
+            return;
+        }
+        try {
+           $file = file_get_contents($path);
+           $options = json_decode($file);
+           if (!$options) {
+               return;
+           }
+          $options = (array) $options;
+
+           if (count($options) == 0) {
+               return;
+           }
+
+            $wp_customize->add_panel('udesly_panel', array(
+                'title'=>'Your Theme',
+                'description'=> 'Theme Options',
+                'priority'=> 10,
+            ));
+
+           $section_id = 'udesly_theme_section';
+            $wp_customize->add_section( $section_id , array(
+                'title'      => __( 'Theme Options', 'udesly' ),
+                'priority'   => 30,
+                'panel' => 'udesly_panel'
+            ) );
+
+           foreach ($options as $key => $option) {
+               switch ($option->type) {
+                   case "text":
+                       $wp_customize->add_setting($option->slug, array('default' => $option->default));
+                       $wp_customize->add_control(
+                           $option->slug,
+                           array(
+                               'label'          => $option->label,
+                               'section'        => $section_id,
+                               'settings'       => $option->slug,
+                               'type'           => 'text'
+                           )
+                       );
+                       break;
+                   case "textarea":
+                       $wp_customize->add_setting($option->slug, array('default' => $option->default));
+                       $wp_customize->add_control(
+                           $option->slug,
+                           array(
+                               'label'          => $option->label,
+                               'section'        => $section_id,
+                               'settings'       => $option->slug,
+                               'type'           => 'textarea'
+                           )
+                       );
+                       break;
+                   case "url":
+                       $wp_customize->add_setting($option->slug, array('default' => $option->default));
+                       $wp_customize->add_control(
+                           $option->slug,
+                           array(
+                               'label'          => $option->label,
+                               'section'        => $section_id,
+                               'settings'       => $option->slug,
+                               'type'           => 'url'
+                           )
+                       );
+                       break;
+                   case "number":
+                       $wp_customize->add_setting($option->slug, array('default' => $option->default));
+                       $wp_customize->add_control(
+                           $option->slug,
+                           array(
+                               'label'          => $option->label,
+                               'section'        => $section_id,
+                               'settings'       => $option->slug,
+                               'type'           => 'number'
+                           )
+                       );
+                       break;
+                   case "image":
+                       $wp_customize->add_setting($option->slug, array('default' => $option->default));
+                       $wp_customize->add_control(
+                           new \WP_Customize_Image_Control(
+                               $wp_customize,
+                               $option->slug,
+                               array(
+                                   'label'      => $option->label,
+                                   'section'    => $section_id,
+                                   'settings'   => $option->slug,
+                               )
+                           )
+                       );
+                       break;
+                   case "color":
+                   $wp_customize->add_setting($option->slug, array('default' => $option->default));
+                   $wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize,  $option->slug, array(
+                       'label'      => $option->label,
+                       'section'    => $section_id,
+                       'settings'   => $option->slug,
+                   ) ) );
+                   break;
+               }
+           }
+
+        } catch(\Exception $e) {
+            return;
+        }
     }
 
     public static function udesly_delete_check_data() {

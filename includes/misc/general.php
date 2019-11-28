@@ -337,3 +337,39 @@ if (!function_exists('write_error_log')) {
     }
 
 }
+
+function __udesly_get_default_theme_mods() {
+    $cache = wp_cache_get('__udesly_default_mods');
+    if ($cache) {
+        return $cache;
+    }
+    $path = \Udesly\Theme\DataManager::get_options_udesly_data_path();
+    if (!file_exists($path)) {
+        wp_cache_set('__udesly_defaults_mods', []);
+        return [];
+    }
+    try {
+        $options = (array) json_decode(file_get_contents($path));
+        wp_cache_set('__udesly_defaults_mods', $options);
+        return $options;
+    }catch (Exception $e) {
+        return [];
+    }
+
+}
+
+function udesly_get_theme_mod($option, $type) {
+
+    $options = get_theme_mods();
+
+    if (isset($options[$option])) {
+        return $options[$option];
+    } else {
+        $defaults = __udesly_get_default_theme_mods();
+        if (isset($defaults[$option])) {
+            return $defaults[$option]->default;
+        } else {
+            return "";
+        }
+    }
+}

@@ -149,6 +149,7 @@ class Udesly
         Posts::public_hooks();
         Taxonomies::public_hooks();
         Scripts::public_hooks();
+        DataManager::public_hooks();
         FrontendEditorType::public_hooks();
         Box::public_hooks();
         Rule::public_hooks();
