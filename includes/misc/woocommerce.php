@@ -13,21 +13,22 @@ function udesly_woocommerce_featured_image_url($size = 'full')
     return $main_image_url;
 }
 
-function udesly_wc_cart_cross_sells() {
-    $cross_sells = array_filter( array_map( 'wc_get_product', WC()->cart->get_cross_sells() ), 'wc_products_array_filter_visible' );
+function udesly_wc_cart_cross_sells()
+{
+    $cross_sells = array_filter(array_map('wc_get_product', WC()->cart->get_cross_sells()), 'wc_products_array_filter_visible');
 
     $wc_settings = \Udesly\Dashboard\Views\Settings::get_wc_settings();
 
     $limit = $wc_settings['cart_cross_sells_limit'];
 
-    wc_set_loop_prop( 'name', 'cross-sells' );
-    wc_set_loop_prop( 'columns', apply_filters( 'woocommerce_cross_sells_columns', '2' ) );
+    wc_set_loop_prop('name', 'cross-sells');
+    wc_set_loop_prop('columns', apply_filters('woocommerce_cross_sells_columns', '2'));
     // Handle orderby and limit results.
-    $orderby     = apply_filters( 'woocommerce_cross_sells_orderby', 'rand' );
-    $order       = apply_filters( 'woocommerce_cross_sells_order', 'desc' );
-    $cross_sells = wc_products_array_orderby( $cross_sells, $orderby, 'desc' );
-    $limit       = apply_filters( 'woocommerce_cross_sells_total', $limit );
-    $cross_sells = $limit > 0 ? array_slice( $cross_sells, 0, $limit ) : $cross_sells;
+    $orderby = apply_filters('woocommerce_cross_sells_orderby', 'rand');
+    $order = apply_filters('woocommerce_cross_sells_order', 'desc');
+    $cross_sells = wc_products_array_orderby($cross_sells, $orderby, 'desc');
+    $limit = apply_filters('woocommerce_cross_sells_total', $limit);
+    $cross_sells = $limit > 0 ? array_slice($cross_sells, 0, $limit) : $cross_sells;
 
     return $cross_sells;
 }
@@ -272,7 +273,7 @@ function udesly_wc_get_variations($attributes)
 
     foreach ($attributes as $attribute_name => $options) {
 
-        $values = (object) array(
+        $values = (object)array(
             "for" => esc_attr(sanitize_title($attribute_name)),
             "label" => wc_attribute_label($attribute_name),
             "options" => array()
@@ -312,7 +313,7 @@ function udesly_wc_get_variations($attributes)
                             $image = "";
                         }
 
-                        $values->options[] = (object) array(
+                        $values->options[] = (object)array(
                             "name" => esc_attr($name),
                             "value" => esc_attr($term->slug),
                             "checked" => sanitize_title($selected) === $term->slug ? "checked" : "",
@@ -326,7 +327,7 @@ function udesly_wc_get_variations($attributes)
                 }
             } else {
                 foreach ($options as $option) {
-                    $values->options[] = (object) array(
+                    $values->options[] = (object)array(
                         "name" => esc_attr($name),
                         "value" => esc_attr($option),
                         "checked" => sanitize_title($selected) === $selected ? checked($selected, sanitize_title($option), false) : checked($selected, $option, false),
@@ -345,7 +346,8 @@ function udesly_wc_get_variations($attributes)
     return $results;
 }
 
-function udesly_wc_get_single_product_images() {
+function udesly_wc_get_single_product_images()
+{
     global $product;
 
     if ($cache = wp_cache_get("wc_product_images")) {
@@ -354,42 +356,46 @@ function udesly_wc_get_single_product_images() {
 
     $attachment_ids = $product->get_gallery_image_ids();
     $images = [];
-    if ( $attachment_ids && $product->get_image_id() ) {
+    if ($product->get_image_id()) {
         $images[$product->get_image_id()] = udesly_wc_get_single_product_image($product->get_image_id());
-        foreach ( $attachment_ids as $attachment_id ) {
+
+    }
+
+    if ($attachment_ids) {
+        foreach ($attachment_ids as $attachment_id) {
             $images[$attachment_id] = udesly_wc_get_single_product_image($attachment_id);
         }
     }
-            if($product->get_type() === 'variable') {
+
+    if ($product->get_type() === 'variable') {
 
 
-            $variations = $product->get_available_variations();
-            foreach ( $variations as $variation ) {
-                $id = $variation['image_id'];
-                if (!isset($images[$id])) {
-                    $images[$id] = udesly_wc_get_single_product_image($id);
-                }
+        $variations = $product->get_available_variations();
+        foreach ($variations as $variation) {
+            $id = $variation['image_id'];
+            if (!isset($images[$id])) {
+                $images[$id] = udesly_wc_get_single_product_image($id);
             }
-            }
-
-
+        }
+    }
 
     wp_cache_set("wc_product_images", $images);
     return $images;
 }
 
-function udesly_wc_get_single_product_image_lightbox_json($attachment, $product_id) {
+function udesly_wc_get_single_product_image_lightbox_json($attachment, $product_id)
+{
     if (is_numeric($attachment)) {
         $image = udesly_wc_get_single_product_image($attachment);
     } else {
         $image = $attachment;
     }
     $result = [];
-        $result[] = array(
-            "caption" => $image->caption,
-            "url" => $image->full_src,
-            "type" => "image",
-        );
+    $result[] = array(
+        "caption" => $image->caption,
+        "url" => $image->full_src,
+        "type" => "image",
+    );
 
     return json_encode(array(
         "items" => $result,
@@ -397,24 +403,26 @@ function udesly_wc_get_single_product_image_lightbox_json($attachment, $product_
     ));
 }
 
-function udesly_wc_get_single_product_images_lightbox_json() {
+function udesly_wc_get_single_product_images_lightbox_json()
+{
     $images = udesly_wc_get_single_product_images();
     $result = [];
 
     foreach ($images as $image) {
         $result[] = array(
-                "caption" => $image->caption,
-                "url" => $image->full_src,
-                "type" => "image",
+            "caption" => $image->caption,
+            "url" => $image->full_src,
+            "type" => "image",
         );
     }
 
     return json_encode(array(
-            "items" => $result
+        "items" => $result
     ));
 }
 
-function udesly_wc_get_featured_image_lightbox_json() {
+function udesly_wc_get_featured_image_lightbox_json()
+{
     $result = [];
 
     $image = get_the_post_thumbnail_url('full');
@@ -429,66 +437,68 @@ function udesly_wc_get_featured_image_lightbox_json() {
     ));
 }
 
-function udesly_wc_get_single_product_image($attachment_id, $main_image = false) {
+function udesly_wc_get_single_product_image($attachment_id, $main_image = false)
+{
 
-    $flexslider        = (bool) apply_filters( 'woocommerce_single_product_flexslider_enabled', get_theme_support( 'wc-product-gallery-slider' ) );
+    $flexslider = (bool)apply_filters('woocommerce_single_product_flexslider_enabled', get_theme_support('wc-product-gallery-slider'));
 
-    $gallery_thumbnail = wc_get_image_size( 'gallery_thumbnail' );
-    $thumbnail_size    = apply_filters( 'woocommerce_gallery_thumbnail_size', array( $gallery_thumbnail['width'], $gallery_thumbnail['height'] ) );
-    $image_size        = apply_filters( 'woocommerce_gallery_image_size', $flexslider || $main_image ? 'woocommerce_single' : $thumbnail_size );
-    $full_size         = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
-    $metadata = wp_get_attachment_metadata( $attachment_id );
+    $gallery_thumbnail = wc_get_image_size('gallery_thumbnail');
+    $thumbnail_size = apply_filters('woocommerce_gallery_thumbnail_size', array($gallery_thumbnail['width'], $gallery_thumbnail['height']));
+    $image_size = apply_filters('woocommerce_gallery_image_size', $flexslider || $main_image ? 'woocommerce_single' : $thumbnail_size);
+    $full_size = apply_filters('woocommerce_gallery_full_size', apply_filters('woocommerce_product_thumbnails_large_size', 'full'));
+    $metadata = wp_get_attachment_metadata($attachment_id);
     $caption = $metadata['image_meta']['caption'];
 
-    return (object) array(
-       "src" => wp_get_attachment_image_src(
-        $attachment_id,
-        $image_size,
-        false
-       )[0],
-       "sizes" => wp_get_attachment_image_sizes($attachment_id, $image_size),
-       "srcset" => wp_get_attachment_image_srcset($attachment_id, $image_size),
-        "thumb_src"     => wp_get_attachment_image_src( $attachment_id, $thumbnail_size )[0],
-        "full_src"          => wp_get_attachment_image_src( $attachment_id, $full_size )[0],
-        "alt"       => trim( wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ),
+    return (object)array(
+        "src" => wp_get_attachment_image_src(
+            $attachment_id,
+            $image_size,
+            false
+        )[0],
+        "sizes" => wp_get_attachment_image_sizes($attachment_id, $image_size),
+        "srcset" => wp_get_attachment_image_srcset($attachment_id, $image_size),
+        "thumb_src" => wp_get_attachment_image_src($attachment_id, $thumbnail_size)[0],
+        "full_src" => wp_get_attachment_image_src($attachment_id, $full_size)[0],
+        "alt" => trim(wp_strip_all_tags(get_post_meta($attachment_id, '_wp_attachment_image_alt', true))),
         "caption" => $caption
     );
 }
 
-function udesly_wc_breadcrumb( $args = array() ) {
-    $args        = wp_parse_args( $args, apply_filters( 'woocommerce_breadcrumb_defaults', array(
-        'delimiter'   => '&nbsp;&#47;&nbsp;',
+function udesly_wc_breadcrumb($args = array())
+{
+    $args = wp_parse_args($args, apply_filters('woocommerce_breadcrumb_defaults', array(
+        'delimiter' => '&nbsp;&#47;&nbsp;',
         'wrap_before' => '<nav class="woocommerce-breadcrumb">',
-        'wrap_after'  => '</nav>',
-        'before'      => '',
-        'after'       => '',
-        'home'        => _x( 'Shop', 'breadcrumb', 'woocommerce' ),
-    ) ) );
+        'wrap_after' => '</nav>',
+        'before' => '',
+        'after' => '',
+        'home' => _x('Shop', 'breadcrumb', 'woocommerce'),
+    )));
     $breadcrumbs = new WC_Breadcrumb();
-    if ( ! empty( $args['home'] ) && ! is_shop() ) {
-        $breadcrumbs->add_crumb( $args['home'], get_permalink( wc_get_page_id( 'shop' ) ) );
+    if (!empty($args['home']) && !is_shop()) {
+        $breadcrumbs->add_crumb($args['home'], get_permalink(wc_get_page_id('shop')));
     }
     $breadcrumb = $breadcrumbs->generate();
-    $result     = array();
-    do_action( 'woocommerce_breadcrumb', $breadcrumbs, $args );
+    $result = array();
+    do_action('woocommerce_breadcrumb', $breadcrumbs, $args);
 
-    if ( ! empty( $breadcrumb ) ) {
-        foreach ( $breadcrumb as $key => $crumb ) {
+    if (!empty($breadcrumb)) {
+        foreach ($breadcrumb as $key => $crumb) {
 
-            if ( ! empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
-                array_push( $result, (object) array(
-                    'name' => esc_html( $crumb[0] ),
-                    'href' => esc_url( $crumb[1] ),
+            if (!empty($crumb[1]) && sizeof($breadcrumb) !== $key + 1) {
+                array_push($result, (object)array(
+                    'name' => esc_html($crumb[0]),
+                    'href' => esc_url($crumb[1]),
                     'type' => 'category'
-                ) );
+                ));
             } else {
-                $result[] = (object) array( 'name' => $crumb[0], 'type' => 'current', 'href' => '#' );
+                $result[] = (object)array('name' => $crumb[0], 'type' => 'current', 'href' => '#');
             }
 
-            if ( sizeof( $breadcrumb ) !== $key + 1 ) {
-                array_push( $result, (object) array(
+            if (sizeof($breadcrumb) !== $key + 1) {
+                array_push($result, (object)array(
                     'type' => 'separator'
-                ) );
+                ));
             }
         }
 
@@ -497,17 +507,20 @@ function udesly_wc_breadcrumb( $args = array() ) {
     return $result;
 }
 
-function udesly_wc_single_product_images_script() {
+function udesly_wc_single_product_images_script()
+{
     echo "window.udeslyWcImages = " . json_encode(udesly_wc_get_single_product_images());
 }
 
-function udesly_wc_open_single_tab( $key ) {
+function udesly_wc_open_single_tab($key)
+{
     ?>
-    <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--<?php echo esc_attr( $key ); ?> panel entry-content wc-tab" id="tab-<?php echo esc_attr( $key ); ?>" role="tabpanel" aria-labelledby="tab-title-<?php echo esc_attr( $key ); ?>">
+    <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--<?php echo esc_attr($key); ?> panel entry-content wc-tab" id="tab-<?php echo esc_attr($key); ?>" role="tabpanel" aria-labelledby="tab-title-<?php echo esc_attr($key); ?>">
     <?php
 }
 
-function udesly_wc_close_single_tab() {
+function udesly_wc_close_single_tab()
+{
     ?>
     </div>
     <?php
@@ -523,37 +536,38 @@ function udesly_wc_get_cart_items()
         $product_id = apply_filters('woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key);
         if ($_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters('woocommerce_cart_item_visible', true, $cart_item, $cart_item_key)) {
             $item['permalink'] = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
-        }else {
+        } else {
             $item['permalink'] = "#";
         }
-        $item['remove'] = esc_url( wc_get_cart_remove_url( $cart_item_key ) );
-        $item['id'] = esc_attr( $product_id );
-        $item['sku'] = esc_attr( $_product->get_sku() );
+        $item['remove'] = esc_url(wc_get_cart_remove_url($cart_item_key));
+        $item['id'] = esc_attr($product_id);
+        $item['sku'] = esc_attr($_product->get_sku());
         $main_image_url = wp_get_attachment_image_url($_product->get_image_id(), apply_filters('udesly_cart_image_size', 'medium'));
         $main_image_url = $main_image_url ? $main_image_url : esc_url(wc_placeholder_img_src());
         $item['image'] = $main_image_url;
         $item['title'] = $_product->get_name();
-        $item['price'] = apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
-        $max_value    = $_product->get_max_purchase_quantity();
+        $item['price'] = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
+        $max_value = $_product->get_max_purchase_quantity();
         if ($max_value < 0) {
             $max_value = "";
         }
-        $item['quantity'] = (object) array(
+        $item['quantity'] = (object)array(
             'sold_individually' => $_product->is_sold_individually(),
-            'input_name'   => "cart[{$cart_item_key}][qty]",
-            'input_value'  => $cart_item['quantity'],
+            'input_name' => "cart[{$cart_item_key}][qty]",
+            'input_value' => $cart_item['quantity'],
             'max_value' => $max_value,
-            'min_value'    => '0'
+            'min_value' => '0'
         );
-        $item['subtotal'] = apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
+        $item['subtotal'] = apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // PHPCS: XSS ok.
         $item['variation'] = wc_get_formatted_cart_item_data($cart_item, true);
 
-        $items[] = (object) $item;
+        $items[] = (object)$item;
     }
     return $items;
 }
 
-function udesly_wc_webflow_checkout($classes = '{}') {
+function udesly_wc_webflow_checkout($classes = '{}')
+{
     define('UDESLY_WOO_WEBFLOW_CHECKOUT', true);
 
     $classes = wp_parse_args(json_decode($classes), array(
@@ -575,28 +589,29 @@ function udesly_wc_webflow_checkout($classes = '{}') {
     global $udesly_checkout_classes;
     $udesly_checkout_classes = $classes;
 
-    WC()->session->set( 'udesly_checkout_classes', $classes );
+    WC()->session->set('udesly_checkout_classes', $classes);
 
     echo do_shortcode('[woocommerce_checkout]');
 
 }
 
 
-function udesly_wc_alternative_template($located, $template_name, $args, $template_path, $default_path){
+function udesly_wc_alternative_template($located, $template_name, $args, $template_path, $default_path)
+{
 
     global $udesly_checkout_classes;
 
-    if(!isset($udesly_checkout_classes) && WC()->session != null) {
-        $udesly_checkout_classes = WC()->session->get( 'udesly_checkout_classes' );
+    if (!isset($udesly_checkout_classes) && WC()->session != null) {
+        $udesly_checkout_classes = WC()->session->get('udesly_checkout_classes');
     }
 
-    if (is_ajax() && udesly_string_starts_with( $template_name, 'checkout/') ) {
+    if (is_ajax() && udesly_string_starts_with($template_name, 'checkout/')) {
         if (file_exists(UDESLY_ADAPTER_PLUGIN_DIRECTORY_PATH . 'templates/woocommerce/' . str_replace('/', '/new-', $template_name))) {
             return UDESLY_ADAPTER_PLUGIN_DIRECTORY_PATH . 'templates/woocommerce/' . str_replace('/', '/new-', $template_name);
         }
     }
 
-    if( defined('UDESLY_WOO_WEBFLOW_CHECKOUT') && UDESLY_WOO_WEBFLOW_CHECKOUT === true ) {
+    if (defined('UDESLY_WOO_WEBFLOW_CHECKOUT') && UDESLY_WOO_WEBFLOW_CHECKOUT === true) {
 
         if (file_exists(UDESLY_ADAPTER_PLUGIN_DIRECTORY_PATH . 'templates/woocommerce/' . str_replace('/', '/new-', $template_name))) {
             return UDESLY_ADAPTER_PLUGIN_DIRECTORY_PATH . 'templates/woocommerce/' . str_replace('/', '/new-', $template_name);
@@ -606,11 +621,12 @@ function udesly_wc_alternative_template($located, $template_name, $args, $templa
     return $located;
 }
 
-function udesly_wc_alter_input_fields( $args, $key, $value) {
+function udesly_wc_alter_input_fields($args, $key, $value)
+{
     global $udesly_checkout_classes;
-    if ($udesly_checkout_classes){
+    if ($udesly_checkout_classes) {
         $args['label_class'] = explode(' ', $udesly_checkout_classes['l']);
-        $args['input_class'] = $args['type'] === 'country' ?  explode(' ', $udesly_checkout_classes['o']): explode(' ', $udesly_checkout_classes['i']);
+        $args['input_class'] = $args['type'] === 'country' ? explode(' ', $udesly_checkout_classes['o']) : explode(' ', $udesly_checkout_classes['i']);
         return $args;
     } else {
         return $args;
@@ -618,13 +634,14 @@ function udesly_wc_alter_input_fields( $args, $key, $value) {
 }
 
 
-function udesly_wc_get_product_variations() {
+function udesly_wc_get_product_variations()
+{
     global $product;
 
     if ($product->is_type('variable')) {
-        $attributes          = $product->get_variation_attributes();
+        $attributes = $product->get_variation_attributes();
         if ($attributes) {
-          return  udesly_wc_get_variations($attributes);
+            return udesly_wc_get_variations($attributes);
         }
     }
 

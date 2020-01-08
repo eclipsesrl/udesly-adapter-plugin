@@ -29,7 +29,7 @@ class WC
         add_action('wp_ajax_nopriv_udesly_wc_get_notices', array(self::class, "udesly_wc_get_notices"));
         add_filter('woocommerce_gallery_image_size', array(self::class, "product_images_size"), 99);
 
-        // TODO: re add this filter add_filter('template_include', [self::class, 'udesly_redirect_order_confirmation'], 99);
+        add_filter('template_include', [self::class, 'udesly_redirect_order_confirmation'], 99);
     }
 
     public static function udesly_redirect_order_confirmation($template)
@@ -40,8 +40,11 @@ class WC
             if (file_exists(get_template_directory() . '/wc-order-confirmation.php')) {
                 global $wc_order;
                 $wc_order = wc_get_order($wp->query_vars['order-received']);
-                if ($wc_order) {
+                if ($wc_order  && $wc_order->get_user_id() == get_current_user_id()) {
                     return get_template_directory() . '/wc-order-confirmation.php';
+                } else {
+                    wp_redirect(wc_get_checkout_url());
+                    exit;
                 }
             }
 
