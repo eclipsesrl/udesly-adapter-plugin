@@ -4,7 +4,7 @@ Donate link: https://www.udesly.com/
 Tags: webflow to wordpress, editor, page builder, layout design, udesly, webflow
 Requires at least: 5.0
 Tested up to: 5.2.3
-Stable tag: 2.0.0.43
+Stable tag: 2.0.0.45
 License: GPLv3 or later
 License URI: https://www.udesly.com/terms-conditions-of-use/#udesly-wordpress-plugin
 Requires PHP: 5.6.0
@@ -79,7 +79,13 @@ That's all!
 = Can I use the Udesly Adapter on multiple websites? =
 
 Absolutely! You can use the Udesly Adapter to create more than one website.
+
 == Changelog ==
+= 2.0.0.45 =
+* Changed "tap" event to "click" event due to Webflow slider changes
+
+= 2.0.0.44 =
+* Fixed Main Category meta box on product
 
 = 2.0.0.43 =
 * Added Custom thank you page redirect

@@ -110,7 +110,7 @@ class Terms
         add_meta_box( 'main_category_meta_box', __( 'Main Category', 'udesly' ), array(
             self::class,
             'main_category_build_meta_box'
-        ), 'post', 'side', 'high' );
+        ), $post->post_type, 'side', 'high' );
     }
 
     public static function main_category_build_meta_box( $post ) {
