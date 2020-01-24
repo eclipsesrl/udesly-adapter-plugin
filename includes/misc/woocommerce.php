@@ -369,18 +369,38 @@ function udesly_wc_get_single_product_images()
 
     if ($product->get_type() === 'variable') {
 
-
-        $variations = $product->get_available_variations();
-        foreach ($variations as $variation) {
-            $id = $variation['image_id'];
-            if (!isset($images[$id])) {
-                $images[$id] = udesly_wc_get_single_product_image($id);
-            }
+    $variations = $product->get_available_variations();
+    foreach ($variations as $variation) {
+        $id = $variation['image_id'];
+        if (!isset($images[$id])) {
+            $images[$id] = udesly_wc_get_single_product_image($id);
         }
     }
+ }
 
     wp_cache_set("wc_product_images", $images);
     return $images;
+}
+
+function udesly_quantity_input_cart_item($_product, $cart_item_key, $cart_item, $classes) {
+    if ( $_product->is_sold_individually() ) {
+        $product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
+    } else {
+        $product_quantity = woocommerce_quantity_input(
+            array(
+                'input_name'   => "cart[{$cart_item_key}][qty]",
+                'input_value'  => $cart_item['quantity'],
+                'max_value'    => $_product->get_max_purchase_quantity(),
+                'min_value'    => '0',
+                'product_name' => $_product->get_name(),
+                'classes' => $classes
+            ),
+            $_product,
+            false
+        );
+    }
+
+    echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
 }
 
 function udesly_wc_get_single_product_image_lightbox_json($attachment, $product_id)
