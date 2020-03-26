@@ -4,7 +4,7 @@ Donate link: https://www.udesly.com/
 Tags: webflow to wordpress, editor, page builder, layout design, udesly, webflow
 Requires at least: 5.0
 Tested up to: 5.2.3
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv3 or later
 License URI: https://www.udesly.com/terms-conditions-of-use/#udesly-wordpress-plugin
 Requires PHP: 5.6.0
@@ -81,6 +81,9 @@ That's all!
 Absolutely! You can use the Udesly Adapter to create more than one website.
 
 == Changelog ==
+
+= 2.0.2 =
+* Added js support for multiple mini cart in same page
 
 = 2.0.1 =
 * Fixed uncaught javascript error on Wc frontend script
