@@ -111,7 +111,10 @@ class CustomPostTypes
                             ),
                             'rewrite' => array(
                                 'slug' => $slug
-                            )
+                            ),
+                            'show_ui' => true,
+                            'show_admin_column' => true,
+                            'query_var' => true,
                         ));
                     }
                 }
@@ -137,6 +140,8 @@ class CustomPostTypes
                name="<?php echo $args[0]; ?>"/>
         <?php
     }
+
+
 
     public static function rewrite_custom_taxonomies()
     {
@@ -197,10 +202,64 @@ class CustomPostTypes
         return $post_types;
     }
 
+    public static function add_custom_metaboxes() {
+        $cached_taxonomies = wp_cache_get('udesly_registered_taxonomies');
+
+        foreach ($cached_taxonomies as $taxonomy => $post_type) {
+
+            $title = str_replace('_', ' ', $taxonomy);
+            $title = ucfirst($title);
+            add_meta_box( "taxonomy-dropdown-div--${taxonomy}", $title, [self::class, 'add_taxonomy_metabox'],$post_type ,'side','core', $taxonomy);
+        }
+    }
+
+    public static function add_taxonomy_metabox( $post, $args ) {
+        $title = $args['title'];
+        $taxonomy = $args['args'];
+        //The name of the form
+        $name = 'tax_input[' . $taxonomy . '][]';
+        $id = $taxonomy.'dropdown';
+        //Get current and popular terms
+        $postterms = get_the_terms( $post->ID, $taxonomy );
+        $current = ($postterms ? array_pop($postterms) : false);
+        $current = ($current ? $current->term_id : 0);
+        ?>
+
+        <div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
+            <!-- Display taxonomy terms -->
+            <div id="<?php echo $taxonomy; ?>-all" class="tabs-panel">
+                <?php $args = array(
+                    'show_option_all'    => "Choose a $title",
+                    'show_option_none'   => '',
+                    'orderby'            => 'ID',
+                    'order'              => 'ASC',
+                    'show_count'         => 0,
+                    'hide_empty'         => 0,
+                    'child_of'           => 0,
+                    'exclude'            => '',
+                    'echo'               => 1,
+                    'selected'           => 1,
+                    'hierarchical'       => 1,
+                    'name'               => $name,
+                    'id'                 => $id,
+                    'class'              => 'form-no-clear',
+                    'depth'              => 0,
+                    'tab_index'          => 0,
+                    'taxonomy'           => $taxonomy,
+                    'hide_if_empty'      => true
+                ); ?>
+
+                <?php wp_dropdown_categories($args); ?>
+            </div>
+        </div>
+        <?php
+    }
+
     public static function admin_hooks()
     {
         add_action('admin_init', array(self::class, "rewrite_custom_taxonomies"));
         add_filter('udesly_attach_featured_image_terms', array(self::class, "add_registered_taxonomies_to_featured_image"), 1, 1);
+        add_action( 'add_meta_boxes', array(self::class, "add_custom_metaboxes"));
     }
 
     public static function custom_taxonomy_archive($template)

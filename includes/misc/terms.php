@@ -144,3 +144,26 @@ function udesly_get_main_category($id = null){
         'url' => get_term_link($term),
     );
 }
+
+function udesly_get_taxonomies($taxonomy, $limit = 0, $post_id = null)
+{
+    if (!$post_id) {
+        global $post;
+        $post_id = $post->ID; // loop post
+    }
+
+    $taxonomy = $taxonomy != '' ? $taxonomy : 'cat';
+
+    $tax_ids = wp_get_post_terms($post_id, $taxonomy, array(
+        'number' => $limit
+    ));
+
+    // Return categories
+    $taxonomies = array();
+
+    foreach ($tax_ids as $tax) {
+        $taxonomies[] = (object)array('name' => $tax->name, 'link' => get_term_link($tax));
+    }
+
+    return $taxonomies;
+}
