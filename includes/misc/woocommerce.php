@@ -226,7 +226,7 @@ function udesly_woocommerce_get_cart_items()
             $current_product['quantity'] = $cart_item['quantity'];
             $current_product['class'] = '';
             $current_product['price'] = $product_price;
-            $current_product['total'] = wc_price($cart_item['line_total']);
+            $current_product['total'] = wc_price($cart_item['line_total'] + $cart_item['line_tax']);
             $current_product['key'] = $cart_item_key;
             $cart_items[] = (object)$current_product;
         }
