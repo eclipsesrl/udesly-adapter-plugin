@@ -164,14 +164,19 @@ class Udesly
             add_action('wp_enqueue_scripts', array($this, 'enqueue_wc_library'));
         }
 
-        /*add_filter('script_loader_tag', function ($tag, $handle) {
-            if ( 'udesly-wp-wf' !== $handle )
-                return $tag;
-            $tag = str_replace( " type='text/javascript'", ' type="module" ', $tag );
-            return str_replace(' type="text/javascript"', ' type="module" ', $tag);
-        } , 10, 2);
-           */
+        add_action('wp_ajax_udesly_wp_refresh_nonce', array(self::class, 'udesly_wp_refresh_nonce'));
+        add_action('wp_ajax_nopriv_udesly_wp_refresh_nonce', array(self::class, 'udesly_wp_refresh_nonce'));
         add_action('wp_loaded', array($this, 'enable_temporary_mode'));
+    }
+
+    public function udesly_wp_refresh_nonce() {
+        wp_send_json_success(
+            array(
+                'nonce' => wp_create_nonce("udesly-ajax-action"),
+            )
+        );
+
+        wp_die();
     }
 
     public function enable_temporary_mode() {

@@ -494,6 +494,14 @@ class Settings
                             name="js.break_cache_forms"><?php _e("Break Cache on Forms redirect", UDESLY_TEXT_DOMAIN); ?></Checkbox>
                 </Help>
 
+                <Help>
+                    <template v-slot:help>
+                        <?php _e("If this option is enabled on page load a script will make an extra request to refetch nonce, enable this if you have cache issues", UDESLY_TEXT_DOMAIN); ?>
+                    </template>
+                    <Checkbox
+                            name="js.refetch_nonce"><?php _e("Refetch nonce through Ajax", UDESLY_TEXT_DOMAIN); ?></Checkbox>
+                </Help>
+
                 <Material-Input name="js.wc_notification_duration" type="number" min="0">
                     <Help>
                         <template v-slot:help>
@@ -555,7 +563,8 @@ class Settings
     public static function get_js_settings() {
         return self::get_settings("js", array(
             "break_cache_forms" => false,
-            "wc_notification_duration" => 3
+            "wc_notification_duration" => 3,
+            "refetch_nonce" => false
         ));
     }
 
