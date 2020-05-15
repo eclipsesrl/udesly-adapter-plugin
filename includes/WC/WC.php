@@ -55,7 +55,7 @@ class WC
 
     public static function udesly_wc_get_notices()
     {
-        if (!check_ajax_referer('udesly-ajax-action', 'security', false)) {
+        if (!self::verify_nonce()) {
             wp_send_json_error(array(
                 "code" => 403,
                 "message" => "failed security check"
@@ -72,10 +72,31 @@ class WC
         wp_die();
     }
 
+    public static function verify_nonce() {
+        $settings = Settings::get_wc_settings();
+        $check = $settings['nonce_check'];
+
+        if ($check == "disable") {
+            return true;
+        }
+        if ($check == "exclude_guests" && !is_user_logged_in()) {
+            return true;
+        };
+
+        if ($check == "exclude_logged_in" && is_user_logged_in()) {
+            return true;
+        }
+
+        if (isset($_POST['security'])) {
+
+            return wp_verify_nonce($_POST['security'], 'udesly-ajax-action');
+        }
+        return false;
+    }
 
     public static function udesly_get_products()
     {
-        if (!check_ajax_referer('udesly-ajax-action', 'security', false)) {
+        if (!self::verify_nonce()) {
             wp_send_json_error(array(
                 "code" => 403,
                 "message" => "failed security check"
@@ -185,7 +206,7 @@ class WC
 
     public static function udesly_wc_remove_from_cart()
     {
-        if (!check_ajax_referer('udesly-ajax-action', 'security', false)) {
+        if (!self::verify_nonce()) {
             wp_send_json_error(array(
                 "code" => 403,
                 "message" => "failed security check"
@@ -224,7 +245,7 @@ class WC
 
     public static function udesly_wc_add_to_cart()
     {
-        if (!check_ajax_referer('udesly-ajax-action', 'security', false)) {
+        if (!self::verify_nonce()) {
             wp_send_json_error(array(
                 "code" => 403,
                 "message" => "failed security check"

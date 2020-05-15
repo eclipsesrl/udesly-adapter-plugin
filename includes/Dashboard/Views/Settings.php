@@ -71,7 +71,7 @@ class Settings
                 "all" => __('Show All', UDESLY_TEXT_DOMAIN),
                 "child_of" => __('Only childrens', UDESLY_TEXT_DOMAIN),
                 "parent" => __('Only direct childrens', UDESLY_TEXT_DOMAIN)
-        )
+        );
 
         ?>
         <Tab name="<?php _e('Blog', UDESLY_TEXT_DOMAIN); ?>" icon="fab fa-wordpress-simple">
@@ -255,6 +255,13 @@ class Settings
             "full" => __('Full', UDESLY_TEXT_DOMAIN)
         );
 
+        $nonce_options = array (
+            "all" => __('Check All', UDESLY_TEXT_DOMAIN),
+            "exclude_guests" => __('Exclude Guests from Check', UDESLY_TEXT_DOMAIN),
+            "exclude_logged_in" => __('Exclude Logged In from Check', UDESLY_TEXT_DOMAIN),
+            "disable" => __('Disable Check', UDESLY_TEXT_DOMAIN)
+        );
+
         if (is_plugin_active('woocommerce/woocommerce.php')) : ?>
             <Tab name="<?php _e('WooCommerce', UDESLY_TEXT_DOMAIN); ?>" icon="fas fa-shopping-cart">
                 <Expansion-Panel open="true">
@@ -349,6 +356,23 @@ class Settings
                             <?php _e('Cart Cross Sells Limit', UDESLY_TEXT_DOMAIN); ?>
                         </Help>
                     </Material-Input>
+                </Expansion-Panel>
+                <Expansion-Panel>
+                    <template v-slot:header>
+                        <h3><?php _e("Misc", UDESLY_TEXT_DOMAIN); ?></h3>
+                        <p> <?php _e("Other Settings", UDESLY_TEXT_DOMAIN); ?></p>
+                    </template>
+                    <template v-slot:description>
+                        <p><?php _e("These settings are related to elements WC Categories", UDESLY_TEXT_DOMAIN); ?></p>
+                    </template>
+                    <Material-Select name="wc.nonce_check" required options='<?php echo json_encode($nonce_options); ?>'>
+                        <Help>
+                            <template v-slot:help>
+                                <?php _e("Type of nonce check, if you are having ajax issues try to exclude guests or disable nonce check at all", UDESLY_TEXT_DOMAIN); ?>
+                            </template>
+                            <?php _e('Nonce Check', UDESLY_TEXT_DOMAIN); ?>
+                        </Help>
+                    </Material-Select>
                 </Expansion-Panel>
             </Tab>
         <?php endif;
@@ -536,7 +560,8 @@ class Settings
             "related_limit" => 4,
             "disable_select_woo" => false,
             'cart_cross_sells_limit' => 2,
-            "product_images_size" => "full"
+            "product_images_size" => "full",
+            "nonce_check" => "all"
         ));
     }
 

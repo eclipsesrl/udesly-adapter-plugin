@@ -112,6 +112,8 @@ class CustomPostTypes
                             'rewrite' => array(
                                 'slug' => $slug
                             ),
+                            "meta_box_cb" => [self::class,'taxonomy_select_meta_box'],
+                            'show_in_rest' => true,
                             'show_ui' => true,
                             'show_admin_column' => true,
                             'query_var' => true,
@@ -124,6 +126,10 @@ class CustomPostTypes
 
         wp_cache_set('udesly_registered_types', $registered_types);
         wp_cache_set('udesly_registered_taxonomies', $registered_taxonomies);
+    }
+
+    public static function taxonomy_select_meta_box( $post, $box ){
+        echo "<p>This will show up below the checkboxes that you are used to!</p>";
     }
 
     /* Setting Section Description */
@@ -259,7 +265,7 @@ class CustomPostTypes
     {
         add_action('admin_init', array(self::class, "rewrite_custom_taxonomies"));
         add_filter('udesly_attach_featured_image_terms', array(self::class, "add_registered_taxonomies_to_featured_image"), 1, 1);
-        add_action( 'add_meta_boxes', array(self::class, "add_custom_metaboxes"));
+        // add_action( 'add_meta_boxes', array(self::class, "add_custom_metaboxes"));
     }
 
     public static function custom_taxonomy_archive($template)
