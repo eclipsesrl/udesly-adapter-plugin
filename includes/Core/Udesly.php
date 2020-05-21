@@ -60,9 +60,7 @@ class Udesly
 
     public static function is_wc_active() {
         if (is_multisite()) {
-           if (class_exists('WooCommerce')) {
-               return true;
-           }
+            return true;
         } else if( in_array(
             'woocommerce/woocommerce.php',
             apply_filters('active_plugins', get_option('active_plugins'))
@@ -100,7 +98,7 @@ class Udesly
         require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'pagination.php';
 
         // Checks if ACF is active
-        if (function_exists('get_field')) {
+        if (function_exists('get_field') || is_multisite()) {
             require_once UDESLY_ADAPTER_PLUGIN_MISC_PATH . 'acf.php';
         }
 
