@@ -254,7 +254,7 @@ class Posts
                         <?php _e("Post Type", UDESLY_TEXT_DOMAIN); ?>
                         <template v-slot:content>
                             <Material-Select name="post_type"
-                                             options='<?php echo json_encode(self::get_post_types()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_post_types())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Here you can select the post type you want to display (posts, products, pages, etc.)", UDESLY_TEXT_DOMAIN); ?>
@@ -286,7 +286,7 @@ class Posts
                                 </Help>
                             </udesly-multi>
                             <udesly-multi-simple name="author"
-                                                 options='<?php echo json_encode(self::get_authors()); ?>'>
+                                                 options='<?php echo esc_attr(json_encode(self::get_authors())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("View all the posts belonging to a specific author.", UDESLY_TEXT_DOMAIN); ?>
@@ -313,7 +313,7 @@ class Posts
                                 </Help>
                             </Material-Input>
                             <Material-Select name="post_status"
-                                             options='<?php echo json_encode(self::get_post_statuses()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_post_statuses())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Filter posts by post status", UDESLY_TEXT_DOMAIN); ?>
@@ -322,7 +322,7 @@ class Posts
                                 </Help>
                             </Material-Select>
                             <Material-Select name="has_password"
-                                             options='<?php echo json_encode(self::get_has_password_options()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_has_password_options())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Filter posts by Password status", UDESLY_TEXT_DOMAIN); ?>
@@ -337,7 +337,7 @@ class Posts
                         <?php _e("Sort", UDESLY_TEXT_DOMAIN); ?>
                         <template v-slot:content>
                             <Material-Select name="orderby"
-                                             options='<?php echo json_encode(self::get_orderby()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_orderby())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Order posts based on date, title, slug or ID.", UDESLY_TEXT_DOMAIN); ?>
@@ -346,7 +346,7 @@ class Posts
                                 </Help>
                             </Material-Select>
                             <Material-Select name="order"
-                                             options='<?php echo json_encode(self::get_order()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_order())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Order posts in descending or ascending order", UDESLY_TEXT_DOMAIN); ?>

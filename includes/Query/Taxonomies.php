@@ -133,7 +133,7 @@ class Taxonomies
                         <?php _e("Terms Type", UDESLY_TEXT_DOMAIN); ?>
                         <template v-slot:content>
                             <Material-Select name="taxonomy"
-                                             options='<?php echo json_encode(self::get_taxonomies()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_taxonomies())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Select the terms type you want to display (categories, tags etc.)", UDESLY_TEXT_DOMAIN); ?>
@@ -170,7 +170,7 @@ class Taxonomies
                         <?php _e("Sort", UDESLY_TEXT_DOMAIN); ?>
                         <template v-slot:content>
                             <Material-Select name="orderby"
-                                             options='<?php echo json_encode(self::get_orderby()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_orderby())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Order posts based on date, title, slug or ID.", UDESLY_TEXT_DOMAIN); ?>
@@ -179,7 +179,7 @@ class Taxonomies
                                 </Help>
                             </Material-Select>
                             <Material-Select name="order"
-                                             options='<?php echo json_encode(self::get_order()); ?>'>
+                                             options='<?php echo esc_attr(json_encode(self::get_order())); ?>'>
                                 <Help>
                                     <template v-slot:help>
                                         <?php _e("Order posts in descending or ascending order.", UDESLY_TEXT_DOMAIN); ?>
