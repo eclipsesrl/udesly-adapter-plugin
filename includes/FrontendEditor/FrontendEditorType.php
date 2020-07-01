@@ -117,7 +117,7 @@ class FrontendEditorType
     }
 
     public static function can_use_frontend_editor() {
-        if (current_user_can('administrator')) {
+        if (current_user_can('administrator') || current_user_can('editor')) {
             $res = true;
         } else {
             $res = false;

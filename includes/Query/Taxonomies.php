@@ -252,7 +252,7 @@ class Taxonomies
 
                 foreach ($t as $tax) {
 
-                    if ($tax->name != "post_format" && $tax->public) {
+                    if ($tax->name != "post_format") {
                         $taxonomies[$tax->name] = "[ $post_type->name ] $tax->label";
                     }
                 }

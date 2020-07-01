@@ -59,16 +59,17 @@ class Udesly
     }
 
     public static function is_wc_active() {
-        if (is_multisite()) {
-            return true;
-        } else if( in_array(
-            'woocommerce/woocommerce.php',
-            apply_filters('active_plugins', get_option('active_plugins'))
-        )) {
-            return true;
+        $res = false;
+        if ( class_exists( 'woocommerce' ) || in_array(
+                'woocommerce/woocommerce.php',
+                apply_filters('active_plugins', get_option('active_plugins'))
+            ) ) {
+            $res = true;
         }
-        return false;
+
+        return apply_filters('udesly_wc_is_active', $res);
     }
+
 
     /**
      * Loads text locale

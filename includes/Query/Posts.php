@@ -477,9 +477,11 @@ class Posts
                 $t = get_object_taxonomies($post_type->name, 'objects');
                 $taxonomies = array("" => __("Select an option", UDESLY_TEXT_DOMAIN));
                 foreach ($t as $tax) {
-                    if ($tax->name != "post_format" && $tax->public) {
+                    if ($tax->name != "post_format" ) {
                         $taxonomies[$tax->name] = $tax->label;
-                        $taxonomies["udy_current_{$tax->name}"] = "Current {$tax->labels->singular_name}";
+                        if ($tax->public) {
+                            $taxonomies["udy_current_{$tax->name}"] = "Current {$tax->labels->singular_name}";
+                        }
                     }
                 }
                 if ($taxonomies) {
