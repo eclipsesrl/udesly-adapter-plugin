@@ -31,9 +31,9 @@ $hidden = true;
 ?>
 <div class="woocommerce-form-login-toggle <?php echo $udesly_checkout_classes['h']; ?>" style="margin-bottom: 10px;">
     <div class="woocommerce-info">
-    <?php
-    wc_print_notice( apply_filters( 'woocommerce_checkout_login_message', esc_html__( 'Returning customer?', 'woocommerce' ) ) . ' <a href="#" class="showlogin">' . esc_html__( 'Click here to login', 'woocommerce' ) . '</a>', 'notice' );
-    ?>
+        <?php
+        echo wc_kses_notice( apply_filters( 'woocommerce_checkout_login_message', esc_html__( 'Returning customer?', 'woocommerce' ) ) . ' <a href="#" class="showlogin">' . esc_html__( 'Click here to login', 'woocommerce' ) . '</a>', 'notice' );
+        ?>
     </div>
 </div>
 
