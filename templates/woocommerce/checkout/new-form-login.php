@@ -27,16 +27,7 @@ if (is_user_logged_in()) {
 $message = __('If you have shopped with us before, please enter your details below. If you are a new customer, please proceed to the Billing &amp; Shipping section.', 'woocommerce');
 $redirect = wc_get_page_permalink('checkout');
 $hidden = true;
-
 ?>
-<div class="woocommerce-form-login-toggle <?php echo $udesly_checkout_classes['h']; ?>" style="margin-bottom: 10px;">
-    <div class="woocommerce-info">
-        <?php
-        echo wc_kses_notice( apply_filters( 'woocommerce_checkout_login_message', esc_html__( 'Returning customer?', 'woocommerce' ) ) . ' <a href="#" class="showlogin">' . esc_html__( 'Click here to login', 'woocommerce' ) . '</a>', 'notice' );
-        ?>
-    </div>
-</div>
-
 <form class="woocommerce-form woocommerce-form-login login <?php echo $udesly_checkout_classes['c_w']; ?>"
       method="post" <?php echo ($hidden) ? 'style="display:none;"' : ''; ?>>
 
