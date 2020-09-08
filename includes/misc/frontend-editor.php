@@ -28,16 +28,14 @@ function udesly_get_fe_items($page_name) {
 }
 
 function udesly_mb_unserialize($string) {
-    $string2 = preg_replace_callback(
-        '!s:(\d+):"(.*?)";!s',
-        function($m){
-            $len = strlen($m[2]);
-            $result = "s:$len:\"{$m[2]}\";";
-            return $result;
-
-        },
-        $string);
-    return unserialize($string2);
+	$string = preg_replace_callback(
+		'/(?<=^|\{|;)s:(\d+):\"(.*?)\";(?=[asbdiO]\:\d|N;|\}|$)/s',
+		function($m){
+			return 's:' . strlen($m[2]) . ':"' . $m[2] . '";';
+		},
+		$string
+	);
+	return unserialize($string);
 }
 
 function _udesly_set_fe_items($page_name) {
