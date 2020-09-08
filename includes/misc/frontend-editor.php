@@ -29,14 +29,12 @@ function udesly_get_fe_items($page_name) {
 
 function udesly_mb_unserialize($string) {
     $string2 = preg_replace_callback(
-        '!s:(\d+):"(.*?)";!s',
+        '/(?<=^|\{|;)s:(\d+):\"(.*?)\";(?=[asbdiO]\:\d|N;|\}|$)/s',
         function($m){
-            $len = strlen($m[2]);
-            $result = "s:$len:\"{$m[2]}\";";
-            return $result;
-
+            return 's:' . strlen($m[2]) . ':"' . $m[2] . '";';
         },
-        $string);
+        $string
+    );
     return unserialize($string2);
 }
 
