@@ -104,7 +104,7 @@ class WC
             wp_die();
         }
         $query_name = sanitize_title($_POST['name']);
-        $query_template = sanitize_title($_POST['template']);
+        $query_template = sanitize_text_field($_POST['template']);
 
         $page = (int)sanitize_text_field($_POST['page']);
 
