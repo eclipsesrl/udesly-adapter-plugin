@@ -122,7 +122,7 @@ function _udesly_set_fe_items($page_name) {
             }
         }
         if (udesly_string_starts_with($key, 'link_')) {
-            if (!udesly_string_is_absolute($value) && !udesly_string_starts_with($value, 'mailto:') && !udesly_string_starts_with($value, 'tel:') && !udesly_string_starts_with($value, 'javascript:') && !udesly_string_starts_with($value, 'skype:') && !udesly_string_starts_with($value, '#')) {
+            if (!udesly_string_is_absolute($value) && !udesly_string_starts_with($value, 'sms:') && !udesly_string_starts_with($value, 'mailto:') && !udesly_string_starts_with($value, 'tel:') && !udesly_string_starts_with($value, 'javascript:') && !udesly_string_starts_with($value, 'skype:') && !udesly_string_starts_with($value, '#')) {
                 // Check if file
                 if (strpos($value, '.') !== false) {
                     $value = $theme_dir . $value;

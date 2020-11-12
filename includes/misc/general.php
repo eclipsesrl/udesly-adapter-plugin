@@ -63,7 +63,7 @@ function udesly_get_permalink_by_slug($page_slug, $output = OBJECT, $post_type =
     if(!is_null($post) || is_wp_error($post))
         return get_permalink($post);
 
-    return '#';
+    return $page_slug;
 }
 
 /**
