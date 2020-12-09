@@ -4,7 +4,7 @@ Donate link: https://www.udesly.com/
 Tags: webflow to wordpress, editor, page builder, layout design, udesly, webflow
 Requires at least: 5.0
 Tested up to: 5.2.3
-Stable tag: 2.0.15
+Stable tag: 2.0.16
 License: GPLv3 or later
 License URI: https://www.udesly.com/terms-conditions-of-use/#udesly-wordpress-plugin
 Requires PHP: 5.6.0
@@ -81,6 +81,12 @@ That's all!
 Absolutely! You can use the Udesly Adapter to create more than one website.
 
 == Changelog ==
+= 2.0.16 =
+* Fixed rule not evaluating on archive pages
+
+= 2.0.15 =
+* Minor bug fix
+
 = 2.0.14 =
 * Fixed Ajax template research
 

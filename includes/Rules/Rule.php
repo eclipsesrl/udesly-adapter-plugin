@@ -25,11 +25,10 @@ class Rule
         <p><?php _e('Start writing "if" and get inspired by autocomplete', UDESLY_TEXT_DOMAIN); ?></p>
         <div id="udesly-rules"></div>
         <script>
-            jQuery(document).ready(function()
-            {
-                jQuery(window).off( 'beforeunload' );
-                setInterval(function() {
-                    jQuery(window).off( 'beforeunload' );
+            jQuery(document).ready(function () {
+                jQuery(window).off('beforeunload');
+                setInterval(function () {
+                    jQuery(window).off('beforeunload');
                 }, 500);
             });
         </script>
@@ -37,10 +36,10 @@ class Rule
 
         $data = maybe_unserialize($post->post_content);
 
-        if(!is_array($data)) {
+        if (!is_array($data)) {
             $data = array(
-                    "values" => array(),
-                    "combinations" => array()
+                "values" => array(),
+                "combinations" => array()
             );
         }
 
@@ -137,16 +136,16 @@ class Rule
         }
 
         $taxonomies = get_taxonomies(
-                array(
-                        "public" => true,
-                )
+            array(
+                "public" => true,
+            )
         );
 
         $tax_t = [];
 
 
         foreach ($taxonomies as $key => $taxonomy) {
-                $tax_t[] = " " .$taxonomy;
+            $tax_t[] = " " . $taxonomy;
         }
 
         if (count($tax_t)) {
@@ -156,12 +155,14 @@ class Rule
         return $options;
     }
 
-    public static function add_rules_for_edd_user($options) {
+    public static function add_rules_for_edd_user($options)
+    {
         $options['has purchased edd'] = [" {slug}", " {id}"];
         return $options;
     }
 
-    public static function add_rules_for_rcp_user($options) {
+    public static function add_rules_for_rcp_user($options)
+    {
         $options['can access rcp'] = ["."];
         $options['is active rcp'] = ["."];
         $options['is expired rcp'] = ["."];
@@ -174,7 +175,7 @@ class Rule
         $l = [];
 
         foreach ($levels->get_levels(array(
-                "status" => "active"
+            "status" => "active"
         )) as $level) {
             $l[] = " " . $level->name;
         }
@@ -209,43 +210,45 @@ class Rule
         return $options;
     }
 
-    public static function eval_rule( $rule_slug ) {
+    public static function eval_rule($rule_slug)
+    {
 
         if (is_numeric($rule_slug)) {
             $content = unserialize(get_post_field('post_content', intval($rule_slug)));
         } else {
-            $rule =  udesly_get_post_by_slug( $rule_slug, OBJECT, self::TYPE_NAME);
+            $rule = udesly_get_post_by_slug($rule_slug, OBJECT, self::TYPE_NAME);
             if (!$rule) {
                 return false;
             }
             $content = unserialize($rule->post_content);
         }
 
-         if (!$content){
-             return false;
-         } else {
+        if (!$content) {
+            return false;
+        } else {
 
-             $rules = $content['values'];
-             $combinations = $content['combinations'];
+            $rules = $content['values'];
+            $combinations = $content['combinations'];
 
-             $result = null;
+            $result = null;
 
-             foreach( $rules as $index => $rule ) {
-                 if ($index == 0) {
-                     $result = self::_get_rule_value($rule);
-                 } else {
-                     if (isset($combinations[$index-1])) {
-                         $result = self::_merge_rule_results($result, self::_get_rule_value($rule), $combinations[$index-1]);
-                     } else {
-                         $result = self::_merge_rule_results($result, self::_get_rule_value($rule));
-                     }
-                 }
-             }
-             return $result;
-         }
+            foreach ($rules as $index => $rule) {
+                if ($index == 0) {
+                    $result = self::_get_rule_value($rule);
+                } else {
+                    if (isset($combinations[$index - 1])) {
+                        $result = self::_merge_rule_results($result, self::_get_rule_value($rule), $combinations[$index - 1]);
+                    } else {
+                        $result = self::_merge_rule_results($result, self::_get_rule_value($rule));
+                    }
+                }
+            }
+            return $result;
+        }
     }
 
-    private static function _merge_rule_results($current_result, $new_result, $combination = "and") {
+    private static function _merge_rule_results($current_result, $new_result, $combination = "and")
+    {
         if (strtolower($combination) == "and") {
             return $current_result && $new_result;
         } else {
@@ -253,11 +256,12 @@ class Rule
         }
     }
 
-    private static function _get_rule_value($rule) {
+    private static function _get_rule_value($rule)
+    {
         if (!is_array($rule) && count($rule) < 1) {
             return false;
         }
-        if (strtolower($rule[0]) == "always" ) {
+        if (strtolower($rule[0]) == "always") {
             return true;
         } else {
             try {
@@ -273,24 +277,26 @@ class Rule
                     }
                     return $function_name();
                 } else {
-                    write_error_log( 'function missing '. $function_name);
+                    write_error_log('function missing ' . $function_name);
                     return false;
                 }
 
-            }catch (\Exception $exception) {
+            } catch (\Exception $exception) {
                 return false;
             }
         }
     }
 
-    public static function add_subject_post( $subjects ) {
+    public static function add_subject_post($subjects)
+    {
         if (!in_array("post", $subjects)) {
             $subjects[] = "post";
         }
         return $subjects;
     }
 
-    public static function add_rules_for_rcp_post( $options ) {
+    public static function add_rules_for_rcp_post($options)
+    {
         $options['is paid content rcp'] = ["."];
         $options['is restricted content rcp'] = ["."];
         return $options;
@@ -302,12 +308,12 @@ class Rule
         add_filter("udesly_rules_options_page", array(self::class, "add_rules_for_page"));
         add_filter("udesly_rules_options_user", array(self::class, "add_rules_for_users"));
 
-        add_action("plugins_loaded", function() {
-            if ( defined( 'EDD_VERSION' ) ) {
+        add_action("plugins_loaded", function () {
+            if (defined('EDD_VERSION')) {
                 add_filter("udesly_rules_options_user", array(self::class, "add_rules_for_edd_user"));
             }
 
-            if ( defined('RCP_PLUGIN_VERSION') ) {
+            if (defined('RCP_PLUGIN_VERSION')) {
                 add_filter("udesly_rules_options_user", array(self::class, "add_rules_for_rcp_user"));
                 add_filter("udesly_rules_subject_keys", array(self::class, "add_subject_post"));
                 add_filter("udesly_rules_options_post", array(self::class, "add_rules_for_rcp_post"));
@@ -340,7 +346,7 @@ class Rule
             );
         });
 
-        add_action( 'add_meta_boxes', function () {
+        add_action('add_meta_boxes', function () {
             add_meta_box(
                 'udesly-rules-page-configuration',
                 __('Redirect Rule', UDESLY_TEXT_DOMAIN),
@@ -349,30 +355,30 @@ class Rule
                 'side',
                 'default'
             );
-        } );
+        });
 
-        add_action('save_post', function($post_id) {
-            if ( isset( $_POST['udesly_rule_redirect'] ) ) {
-                $rule_id = intval( $_POST['udesly_rule_redirect'] );
+        add_action('save_post', function ($post_id) {
+            if (isset($_POST['udesly_rule_redirect'])) {
+                $rule_id = intval($_POST['udesly_rule_redirect']);
             } else {
                 $rule_id = 0;
             }
-            if (isset( $_POST['udesly_rule_redirect_where'])) {
+            if (isset($_POST['udesly_rule_redirect_where'])) {
                 $where = sanitize_text_field($_POST['udesly_rule_redirect_where']);
             } else {
                 $where = "";
             }
 
             $negative = "false";
-            if (isset( $_POST['udesly_rule_redirect_negative'])) {
+            if (isset($_POST['udesly_rule_redirect_negative'])) {
                 $negative = "true";
             }
 
-            update_post_meta( $post_id, 'udesly_rule_redirect_options', array(
-                    "rule" => $rule_id,
+            update_post_meta($post_id, 'udesly_rule_redirect_options', array(
+                "rule" => $rule_id,
                 "where" => $where,
                 "negative" => $negative
-            ) );
+            ));
         });
 
         add_action('admin_menu', function () {
@@ -390,54 +396,56 @@ class Rule
         add_action('template_redirect', array(self::class, 'redirect_on_rule_satisfied'));
     }
 
-    public static function redirect_on_rule_satisfied( $template ) {
-        //TODO: non funziona se mi trovo in una pagina archivio (categorie, archivio articoli, ecc.)
-        if(is_page() || is_singular('product') || is_singular('post')) {
-            global $post;
-            $saved_rule = maybe_unserialize(get_post_meta($post->ID,'udesly_rule_redirect_options',true));
-            if(!is_array($saved_rule)) {
-                return $template;
-            }
-            $id = $saved_rule['rule'];
-           if (!$id || $id === 0) {
-               return $template;
-           } else {
-               $res = self::eval_rule($id);
-               if ($saved_rule['negative'] === "true") {
-                   $res = !$res;
-               }
-               if($res) {
-                   $where = $saved_rule['where'];
-                   if ("" === $where) {
-                       wp_redirect(get_site_url());
-                       exit;
-                   } else {
-                       wp_redirect(esc_url($where));
-                       exit;
-                   }
-               }
-           }
+    public static function redirect_on_rule_satisfied($template)
+    {
+
+        $saved_rule = maybe_unserialize(get_post_meta(get_queried_object_id(), 'udesly_rule_redirect_options', true));
+        if (!is_array($saved_rule)) {
+            return $template;
         }
+        $id = $saved_rule['rule'];
+        if (!$id || $id === 0) {
+            return $template;
+        } else {
+            $res = self::eval_rule($id);
+            if ($saved_rule['negative'] === "true") {
+                $res = !$res;
+            }
+            if ($res) {
+                $where = $saved_rule['where'];
+                if ("" === $where) {
+                    wp_redirect(get_site_url());
+                    exit;
+                } else {
+                    wp_redirect(esc_url($where));
+                    exit;
+                }
+            }
+        }
+
         return $template;
     }
 
-    public static function check_redirect() {
+    public static function check_redirect()
+    {
 
     }
 
-    public static function get_saved_rules() {
+    public static function get_saved_rules()
+    {
         return get_posts(array(
-            'posts_per_page'   => -1,
-            'post_type'        => self::TYPE_NAME
+            'posts_per_page' => -1,
+            'post_type' => self::TYPE_NAME
         ));
     }
 
-    public static function redirect_rule_metabox($post){
+    public static function redirect_rule_metabox($post)
+    {
 
         $rules = self::get_saved_rules();
 
 
-        $saved_option = maybe_unserialize(get_post_meta($post->ID,'udesly_rule_redirect_options',true));
+        $saved_option = maybe_unserialize(get_post_meta($post->ID, 'udesly_rule_redirect_options', true));
 
         if (!is_array($saved_option)) {
             $saved_redirect = 0;
@@ -452,7 +460,7 @@ class Rule
 
         $rules_options = array();
         $rules_options[0] = __('No redirect', UDESLY_TEXT_DOMAIN);
-        foreach ($rules as $rule){
+        foreach ($rules as $rule) {
             $rules_options[$rule->ID] = $rule->post_title;
         }
 
@@ -460,20 +468,23 @@ class Rule
         <label for="udesly_rule_redirect">
             <?php _e("Redirect Rule", UDESLY_TEXT_DOMAIN); ?>
             <select id="udesly_rule_redirect" name="udesly_rule_redirect">
-            <?php foreach ($rules_options as $key => $value) : ?>
-            <option value="<?php echo $key; ?>" <?php echo $key == $saved_redirect ? "selected": ""; ?>><?php echo $value; ?></option>
-            <?php endforeach; ?>
+                <?php foreach ($rules_options as $key => $value) : ?>
+                    <option value="<?php echo $key; ?>" <?php echo $key == $saved_redirect ? "selected" : ""; ?>><?php echo $value; ?></option>
+                <?php endforeach; ?>
             </select>
         </label>
         <p></p>
         <label for="udesly_rule_redirect_where">
             <?php _e("Where to redirect", UDESLY_TEXT_DOMAIN); ?>
-            <input placeholder="<?php _e("https://www.home.com", UDESLY_TEXT_DOMAIN); ?>" type="url" name="udesly_rule_redirect_where" id="udesly_rule_redirect_where" value="<?php echo $saved_where ? $saved_where : ""; ?>">
+            <input placeholder="<?php _e("https://www.home.com", UDESLY_TEXT_DOMAIN); ?>" type="url"
+                   name="udesly_rule_redirect_where" id="udesly_rule_redirect_where"
+                   value="<?php echo $saved_where ? $saved_where : ""; ?>">
         </label>
         <p></p>
         <label for="udesly_rule_redirect_negative">
             <?php _e("Evaluate rule as negative", UDESLY_TEXT_DOMAIN); ?>
-            <input type="checkbox" name="udesly_rule_redirect_negative" id="udesly_rule_redirect_negative" <?php checked( $saved_negative === "true" ); ?>>
+            <input type="checkbox" name="udesly_rule_redirect_negative"
+                   id="udesly_rule_redirect_negative" <?php checked($saved_negative === "true"); ?>>
         </label>
         <?php
     }
