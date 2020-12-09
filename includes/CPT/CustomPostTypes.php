@@ -270,6 +270,10 @@ class CustomPostTypes
 
     public static function custom_taxonomy_archive($template)
     {
+
+        if (is_tax() || !is_archive()) {
+            return $template;
+        }
         $obj = get_queried_object();
 
         if (!$obj) {
