@@ -4,10 +4,10 @@ Donate link: https://www.udesly.com/
 Tags: webflow to wordpress, editor, page builder, layout design, udesly, webflow
 Requires at least: 5.0
 Tested up to: 5.2.3
-Stable tag: 2.0.17
+Stable tag: 2.0.18
 License: GPLv3 or later
 License URI: https://www.udesly.com/terms-conditions-of-use/#udesly-wordpress-plugin
-Requires PHP: 5.6.0
+Requires PHP: 7.0.0
 
 Design your website in Webflow and connect it to WordPress with tons of plugins and unlimited features, on your own hosting!
 
@@ -81,6 +81,9 @@ That's all!
 Absolutely! You can use the Udesly Adapter to create more than one website.
 
 == Changelog ==
+= 2.0.18 =
+* Added ACF function for tax image field
+
 = 2.0.17 =
 * Fixed template redirect for custom post type
 
