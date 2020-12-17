@@ -622,7 +622,7 @@ function udesly_wc_before_cart() {
 
     // Update Shipping. Nonce check uses new value and old value (woocommerce-cart). @todo remove in 4.0.
     if ( ! empty( $_POST['calc_shipping'] ) && ( wp_verify_nonce( $nonce_value, 'woocommerce-shipping-calculator' ) || wp_verify_nonce( $nonce_value, 'woocommerce-cart' ) ) ) { // WPCS: input var ok.
-        self::calculate_shipping();
+        WC_Shortcode_Cart::calculate_shipping();
 
         // Also calc totals before we check items so subtotals etc are up to date.
         WC()->cart->calculate_totals();

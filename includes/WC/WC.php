@@ -29,6 +29,7 @@ class WC
         add_action('wp_ajax_nopriv_udesly_wc_get_notices', array(self::class, "udesly_wc_get_notices"));
         add_filter('woocommerce_gallery_image_size', array(self::class, "product_images_size"), 99);
 
+        add_action('woocommerce_before_cart', "udesly_wc_before_cart");
         add_filter('template_include', [self::class, 'udesly_redirect_order_confirmation'], 99);
     }
 
