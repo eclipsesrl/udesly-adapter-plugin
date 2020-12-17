@@ -615,6 +615,26 @@ function udesly_wc_webflow_checkout($classes = '{}')
 
 }
 
+function udesly_wc_before_cart() {
+    wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
+
+    $nonce_value = wc_get_var( $_REQUEST['woocommerce-shipping-calculator-nonce'], wc_get_var( $_REQUEST['_wpnonce'], '' ) ); // @codingStandardsIgnoreLine.
+
+    // Update Shipping. Nonce check uses new value and old value (woocommerce-cart). @todo remove in 4.0.
+    if ( ! empty( $_POST['calc_shipping'] ) && ( wp_verify_nonce( $nonce_value, 'woocommerce-shipping-calculator' ) || wp_verify_nonce( $nonce_value, 'woocommerce-cart' ) ) ) { // WPCS: input var ok.
+        self::calculate_shipping();
+
+        // Also calc totals before we check items so subtotals etc are up to date.
+        WC()->cart->calculate_totals();
+    }
+
+    // Check cart items are valid.
+    do_action( 'woocommerce_check_cart_items' );
+
+    // Calc totals.
+    WC()->cart->calculate_totals();
+}
+
 
 function udesly_wc_alternative_template($located, $template_name, $args, $template_path, $default_path)
 {
