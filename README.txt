@@ -4,7 +4,7 @@ Donate link: https://www.udesly.com/
 Tags: webflow to wordpress, editor, page builder, layout design, udesly, webflow
 Requires at least: 5.0
 Tested up to: 5.2.3
-Stable tag: 2.0.22
+Stable tag: 2.0.23
 License: GPLv3 or later
 License URI: https://www.udesly.com/terms-conditions-of-use/#udesly-wordpress-plugin
 Requires PHP: 7.0.0
@@ -81,6 +81,23 @@ That's all!
 Absolutely! You can use the Udesly Adapter to create more than one website.
 
 == Changelog ==
+
+= 2.0.23 =
+* Fixed Fatal error on WC get cart contents on null
+* Fixed missing token check on password reset request
+
+= 2.0.22 =
+* Minor bug fix
+
+= 2.0.21 =
+* Minor bug fix
+
+= 2.0.20 =
+* Minor bug fix
+
+= 2.0.19 =
+* Minor fix on wc.js
+
 = 2.0.18 =
 * Added ACF function for tax image field
 

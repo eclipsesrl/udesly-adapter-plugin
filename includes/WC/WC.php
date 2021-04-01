@@ -174,6 +174,9 @@ class WC
 
     public static function add_woocommerce_mini_cart_elements()
     {
+        if ( is_null(WC()->cart)) {
+            return;
+        }
         ?>
         <div id="udesly-wc-mini-cart-elements" style="display: none;">
             <div id="udesly-wc-mini-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></div>

@@ -113,6 +113,10 @@ class User
 
         $user = check_password_reset_key( $key, $login );
 
+        if (!$user || is_wp_error($user)) {
+            $errors->add( 'expired_token', __( 'Password reset token is expired' ) );
+        }
+
         // check to see if user added some string
         if( empty( $pass1 ) || empty( $pass2 ) )
             $errors->add( 'password_required', __( 'Password is required field' ) );
