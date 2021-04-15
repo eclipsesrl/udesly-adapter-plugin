@@ -2,6 +2,10 @@
     visibility: hidden;
 }
 
+[data-udy-fe-enabled="link_"] a * {
+    pointer-events: none;
+}
+
 [udy-el="wc-variation-add-to-cart"] select {
     display: none;
 }
