@@ -29,7 +29,7 @@ if (!$udesly_checkout_classes) {
     <div style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
     <input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
 
-    <label for="payment_method_<?php echo esc_attr( $gateway->id ); ?> " style="margin-bottom: 0" class="<?php echo $udesly_checkout_classes['l']; ?>">
+    <label for="payment_method_<?php echo esc_attr( $gateway->id ); ?>" style="margin-bottom: 0" class="<?php echo $udesly_checkout_classes['l']; ?>">
         <?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?> <?php //echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?>
     </label>
     </div>
